@@ -1,20 +1,34 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AppLink } from '../../constants';
+import { AppLink, PLAYBACK_DELAY_MS } from '../../constants';
 import FilmCardProps from '../../types/props/film-card-props';
+import Videoplayer from '../videoplayer/videoplayer';
 
 
 function FilmCard({film} : FilmCardProps) : JSX.Element{
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const [playbackDelayTimer, setPlaybackDelayTimer] = useState<number | null>(null);
+
+
+  const mouseOverHandler = () => {
+    setPlaybackDelayTimer(Number(setTimeout(() => setIsVideoPlaying(true), PLAYBACK_DELAY_MS)));
+  };
+
+  const mouseOutHandler = () => {
+    setIsVideoPlaying(false);
+
+    clearTimeout(Number(playbackDelayTimer));
+  };
 
   return (
-    <div className="small-film-card catalog__films-card" data-id={film.id} >
-      <div className="small-film-card__image">
-        <img src={film.previewImage} alt={film.name} width="280" height="175"/>
-      </div>
+    <div className="small-film-card catalog__films-card" data-id={film.id} onMouseOver={mouseOverHandler} onMouseOut={mouseOutHandler}>
+      {<Videoplayer film={film} isPlaying={isVideoPlaying} isMuted/>}
       <h3 className="small-film-card__title">
-        <Link className="small-film-card__link" to={`/${AppLink.Films}/${film.id.toString()}`}>{film.name}</Link>
+        <Link className="small-film-card__link" to={`/${AppLink.Films}/${film.id.toString()}`} onMouseOver={(evt : React.MouseEvent<HTMLElement>) => evt.stopPropagation()}>{film.name}</Link>
       </h3>
     </div>
   );
 }
 
 export default FilmCard;
+
