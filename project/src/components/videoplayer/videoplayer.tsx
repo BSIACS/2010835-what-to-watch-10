@@ -12,7 +12,7 @@ function Videoplayer({film, isPlaying, isMuted} : VideoplayerProps) : JSX.Elemen
       return;
     }
 
-    if(isPlaying && isLoading){
+    if(isPlaying && !isLoading){
       videoElement.current.play();
     }
 
