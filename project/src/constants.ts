@@ -21,6 +21,12 @@ export enum AppLink {
   Mylist = 'mylist',
 }
 
+export enum FilmTabs {
+  Overview = 'overview',
+  Details = 'details',
+  Reviews = 'reviews',
+}
+
 export const DARKEN_COEFFICIENT = -80;
 export const LIGHTEN_COEFFICIENT = 10;
 
