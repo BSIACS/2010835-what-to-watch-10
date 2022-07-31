@@ -34,3 +34,5 @@ export const DEFAULT_FILM_RATING = 0;
 export const MAX_FILM_RATING = 10;
 
 export const PLAYBACK_DELAY_MS = 1000;
+
+export const MAX_DISPLAED_QUANTITY = 4;

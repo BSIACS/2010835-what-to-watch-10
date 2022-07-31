@@ -52,7 +52,7 @@ function MyList({films, user} : MyListProps) : JSX.Element{
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <FilmList films={films}/>
+          <FilmList films={films} filmsGenre={undefined} maxDisplayedQuantity={undefined}/>
 
         </section>
 

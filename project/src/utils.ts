@@ -62,4 +62,26 @@ const getRatingLevel = (ratingScore : number) => {
 
 };
 
-export {lightenDarkenColor, getRatingLevel};
+const getRandomPositiveNumber = (min : number, max : number) : number => {
+  if(min < 0 || max < 0){
+    throw new Error('Аргументы функции не могут быть меньше нуля.');
+  }
+
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+const getUniqueRandomNumbers = (min : number, max : number, quantity : number) : number[] => {
+  const result : number[] = [];
+
+  while(result.length < quantity){
+    const randomNumber = getRandomPositiveNumber(min, max);
+
+    if(!result.includes(randomNumber)){
+      result.push(randomNumber);
+    }
+  }
+
+  return result;
+};
+
+export {lightenDarkenColor, getRatingLevel, getRandomPositiveNumber, getUniqueRandomNumbers};

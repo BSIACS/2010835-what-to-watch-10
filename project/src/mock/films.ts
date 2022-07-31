@@ -1,5 +1,6 @@
 import Film from '../types/film';
-import { getRandomPositiveNumber } from './utils';
+import { getRandomPositiveNumber } from '../utils';
+
 
 const generateId = () => +Math.random().toString().slice(2).toString();
 
