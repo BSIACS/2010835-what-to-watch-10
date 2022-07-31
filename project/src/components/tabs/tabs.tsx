@@ -5,10 +5,10 @@ import Details from './details/details';
 import Overview from './overview/overview';
 import Reviews from './reviews/reviews';
 
-function Tabs({film} : TabsProps) : JSX.Element{
+function Tabs({film, comments} : TabsProps) : JSX.Element{
   const overviewTab = <Overview key={FilmTabs.Overview} film={film}/>;
   const detailTab = <Details key={FilmTabs.Details} film={film}/>;
-  const reviewTab = <Reviews key={FilmTabs.Reviews} film={film}/>;
+  const reviewTab = <Reviews key={FilmTabs.Reviews} film={film} comments={comments}/>;
 
   const [activeTabsComponent, setActiveTabsComponent] = useState(overviewTab);
 

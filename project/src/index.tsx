@@ -11,6 +11,6 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <App promoFilm={promoFilm} films={films} user={user}/>
+    <App promoFilm={promoFilm} films={films} user={user} />
   </React.StrictMode>,
 );

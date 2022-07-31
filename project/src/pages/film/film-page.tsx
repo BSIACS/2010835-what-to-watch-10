@@ -8,7 +8,7 @@ import UserBlock from '../../components/user-block/user-block';
 import { AppLink, MAX_DISPLAED_QUANTITY } from '../../constants';
 import FilmProps from '../../types/props/film-props';
 
-function FilmPage({films, user, favoriteFilms} : FilmProps) : JSX.Element{
+function FilmPage({films, user, favoriteFilms, comments} : FilmProps) : JSX.Element{
   const params = useParams();
   const id = params.id;
   const film = films.find((element) => element.id === Number(id));
@@ -98,7 +98,7 @@ function FilmPage({films, user, favoriteFilms} : FilmProps) : JSX.Element{
               <img src={film?.posterImage} alt="The Grand Budapest Hotel poster" width="218" height="327" />
             </div>
 
-            <Tabs film={film}/>
+            <Tabs film={film} comments={comments}/>
           </div>
         </div>
       </section>

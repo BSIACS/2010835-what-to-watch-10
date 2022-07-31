@@ -84,4 +84,15 @@ const getUniqueRandomNumbers = (min : number, max : number, quantity : number) :
   return result;
 };
 
-export {lightenDarkenColor, getRatingLevel, getRandomPositiveNumber, getUniqueRandomNumbers};
+const getFilmRunTime = (duration : number | undefined) => {
+  if(duration === undefined){
+    return;
+  }
+
+  const hours = Math.trunc(duration / 60) > 0 ? `${Math.trunc(duration / 60)}h` : '';
+  const minutes = duration % 60 > 0 ? `${duration % 60}m` : '';
+
+  return `${hours} ${minutes}`;
+};
+
+export {lightenDarkenColor, getRatingLevel, getRandomPositiveNumber, getUniqueRandomNumbers, getFilmRunTime};
