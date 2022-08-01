@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppRoute, AuthorisationStatus } from '../../constants';
+import { comments } from '../../mock/comments';
 import { favoriteFilms } from '../../mock/films';
 import AddReview from '../../pages/add-review/add-review';
 import FilmPage from '../../pages/film/film-page';
@@ -17,7 +18,7 @@ function App({promoFilm, films, user} : AppProps): JSX.Element {
       <Routes>
         <Route index element={<Main promoFilm={promoFilm} films={films} user={user} favoriteFilms={favoriteFilms}/>} />
         <Route path={AppRoute.SignIn} element={<SignIn />} />
-        <Route path={AppRoute.Film} element={<FilmPage films={films} user={user} favoriteFilms={favoriteFilms}/>}/>
+        <Route path={AppRoute.Film} element={<FilmPage films={films} user={user} favoriteFilms={favoriteFilms} comments={comments}/>}/>
         <Route path={AppRoute.AddReview} element={<PrivateRoute authorisationStatus={AuthorisationStatus.Auth}><AddReview films={films} user={user}/></PrivateRoute>}/>
         <Route path={AppRoute.Player} element={<Player films={films}/>} />
         <Route path={AppRoute.Mylist} element={<PrivateRoute authorisationStatus={AuthorisationStatus.Auth}><MyList films={films} user={user}/></PrivateRoute>}/>

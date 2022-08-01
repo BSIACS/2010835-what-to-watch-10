@@ -62,4 +62,37 @@ const getRatingLevel = (ratingScore : number) => {
 
 };
 
-export {lightenDarkenColor, getRatingLevel};
+const getRandomPositiveNumber = (min : number, max : number) : number => {
+  if(min < 0 || max < 0){
+    throw new Error('Аргументы функции не могут быть меньше нуля.');
+  }
+
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+const getUniqueRandomNumbers = (min : number, max : number, quantity : number) : number[] => {
+  const result : number[] = [];
+
+  while(result.length < quantity){
+    const randomNumber = getRandomPositiveNumber(min, max);
+
+    if(!result.includes(randomNumber)){
+      result.push(randomNumber);
+    }
+  }
+
+  return result;
+};
+
+const getFilmRunTime = (duration : number | undefined) => {
+  if(duration === undefined){
+    return;
+  }
+
+  const hours = Math.trunc(duration / 60) > 0 ? `${Math.trunc(duration / 60)}h` : '';
+  const minutes = duration % 60 > 0 ? `${duration % 60}m` : '';
+
+  return `${hours} ${minutes}`;
+};
+
+export {lightenDarkenColor, getRatingLevel, getRandomPositiveNumber, getUniqueRandomNumbers, getFilmRunTime};

@@ -95,7 +95,7 @@ function Main({promoFilm, films, user, favoriteFilms} : MainProps) : JSX.Element
             </li>
           </ul>
 
-          <FilmList films={films}/>
+          <FilmList films={films} filmsGenre={undefined} maxDisplayedQuantity={undefined}/>
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>
