@@ -1,4 +1,5 @@
-import { useRef, useState } from 'react';
+import { Fragment, useRef, useState } from 'react';
+import React from 'react';
 import { FilmTabs } from '../../constants';
 import TabsProps from '../../types/props/tabs-props';
 import Details from './details/details';
@@ -27,24 +28,35 @@ function Tabs({film, comments} : TabsProps) : JSX.Element{
     }
   };
 
-
   return (
-    <div className="film-card__desc">
-      <nav className="film-nav film-card__nav">
-        <ul className="film-nav__list">
-          <li className={`film-nav__item ${FilmTabs.Overview === activeTabsComponent.key ? 'film-nav__item--active' : ''}`}>
-            <span ref={overviewSpanElement} className="film-nav__link" data-value={FilmTabs.Overview} onClick={tabLinkClickHandler} >Overview</span>
-          </li>
-          <li className={`film-nav__item ${FilmTabs.Details === activeTabsComponent.key ? 'film-nav__item--active' : ''}`}>
-            <span ref={detailsSpanElement} className="film-nav__link" data-value={FilmTabs.Details} onClick={tabLinkClickHandler} >Details</span>
-          </li>
-          <li className={`film-nav__item ${FilmTabs.Reviews === activeTabsComponent.key ? 'film-nav__item--active' : ''}`}>
-            <span ref={reviewSpanElement} className="film-nav__link" data-value={FilmTabs.Reviews} onClick={tabLinkClickHandler} >Reviews</span>
-          </li>
-        </ul>
-      </nav>
-      {activeTabsComponent}
-    </div>
+    <Fragment>
+      <style>{`
+        .film-nav__link {
+          cursor: pointer;}
+          .film-nav__link:hover::after {
+            display: none; }
+        .film-nav__item--active .film-nav__link::after {
+          display: block; }
+      `}
+      </style>
+      <div className="film-card__desc">
+        <nav className="film-nav film-card__nav">
+          <ul className="film-nav__list">
+            <li className={`film-nav__item ${FilmTabs.Overview === activeTabsComponent.key ? 'film-nav__item--active' : ''}`} >
+              <span ref={overviewSpanElement} className="film-nav__link" data-value={FilmTabs.Overview} onClick={tabLinkClickHandler}>Overview</span>
+            </li>
+            <li className={`film-nav__item ${FilmTabs.Details === activeTabsComponent.key ? 'film-nav__item--active' : ''}`}>
+              <span ref={detailsSpanElement} className="film-nav__link" data-value={FilmTabs.Details} onClick={tabLinkClickHandler}>Details</span>
+            </li>
+            <li className={`film-nav__item ${FilmTabs.Reviews === activeTabsComponent.key ? 'film-nav__item--active' : ''}`}>
+              <span ref={reviewSpanElement} className="film-nav__link" data-value={FilmTabs.Reviews} onClick={tabLinkClickHandler}>Reviews</span>
+            </li>
+          </ul>
+        </nav>
+        {activeTabsComponent}
+      </div>
+    </Fragment>
+
   );
 }
 

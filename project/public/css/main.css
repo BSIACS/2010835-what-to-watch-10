@@ -866,7 +866,6 @@ main {
   color: #EEE5B5;
   text-decoration: none;
   position: relative;
-  cursor: pointer;
   padding-bottom: 19px; }
   .film-nav__link::after {
     content: '';
@@ -878,7 +877,8 @@ main {
     bottom: 0;
     background: #EEE5B5;
     display: none; }
-
+  .film-nav__link:hover::after {
+    display: block; }
 
 .film-rating {
   display: -webkit-box;
