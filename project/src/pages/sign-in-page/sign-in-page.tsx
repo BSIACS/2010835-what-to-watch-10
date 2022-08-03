@@ -1,12 +1,6 @@
 import React from 'react';
-import FilmList from '../../components/films-list/film-list';
-import Logo from '../../components/logo/logo';
-import UserBlock from '../../components/user-block/user-block';
-import MyListProps from '../../types/props/mylist-props';
 
-function MyList({films, user} : MyListProps) : JSX.Element{
-  const favoriteFilmsCount = films.length;
-
+function SignInPage() : JSX.Element{
   return (
     <React.Fragment>
       <div className="visually-hidden">
@@ -37,24 +31,36 @@ function MyList({films, user} : MyListProps) : JSX.Element{
           </symbol>
         </svg>
       </div>
-
       <div className="user-page">
         <header className="page-header user-page__head">
+          <div className="logo">
+            <a href="main.html" className="logo__link">
+              <span className="logo__letter logo__letter--1">W</span>
+              <span className="logo__letter logo__letter--2">T</span>
+              <span className="logo__letter logo__letter--3">W</span>
+            </a>
+          </div>
 
-          <Logo/>
-
-          <h1 className="page-title user-page__title">My list <span className="user-page__film-count">{favoriteFilmsCount}</span></h1>
-
-          <UserBlock user={user}/>
-
+          <h1 className="page-title user-page__title">Sign in</h1>
         </header>
 
-        <section className="catalog">
-          <h2 className="catalog__title visually-hidden">Catalog</h2>
-
-          <FilmList films={films} filmsGenre={undefined} maxDisplayedQuantity={undefined}/>
-
-        </section>
+        <div className="sign-in user-page__content">
+          <form action="#" className="sign-in__form">
+            <div className="sign-in__fields">
+              <div className="sign-in__field">
+                <input className="sign-in__input" type="email" placeholder="Email address" name="user-email" id="user-email" />
+                <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
+              </div>
+              <div className="sign-in__field">
+                <input className="sign-in__input" type="password" placeholder="Password" name="user-password" id="user-password" />
+                <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
+              </div>
+            </div>
+            <div className="sign-in__submit">
+              <button className="sign-in__btn" type="submit">Sign in</button>
+            </div>
+          </form>
+        </div>
 
         <footer className="page-footer">
           <div className="logo">
@@ -74,4 +80,4 @@ function MyList({films, user} : MyListProps) : JSX.Element{
   );
 }
 
-export default MyList;
+export default SignInPage;

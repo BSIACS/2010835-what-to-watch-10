@@ -1,6 +1,17 @@
 import React from 'react';
+import { Link, useParams } from 'react-router-dom';
+import Logo from '../../components/logo/logo';
+import ReviewForm from '../../components/review-form/review-form';
+import UserBlock from '../../components/user-block/user-block';
+import { AppLink } from '../../constants';
+import AddReviewProps from '../../types/props/add-review-props';
 
-function SignIn() : JSX.Element{
+function AddReviewPage({films, user} : AddReviewProps) : JSX.Element{
+  const params = useParams();
+  const id = params.id;
+  const film = films.find((element) => element.id === Number(id));
+  const imagePosterAlt = `${film?.name} poster`;
+
   return (
     <React.Fragment>
       <div className="visually-hidden">
@@ -31,53 +42,42 @@ function SignIn() : JSX.Element{
           </symbol>
         </svg>
       </div>
-      <div className="user-page">
-        <header className="page-header user-page__head">
-          <div className="logo">
-            <a href="main.html" className="logo__link">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </a>
+
+      <section className="film-card film-card--full" style={{backgroundColor: film?.backgroundColor}}>
+        <div className="film-card__header">
+          <div className="film-card__bg">
+            <img src={film?.backgroundImage} alt={film?.name} />
           </div>
 
-          <h1 className="page-title user-page__title">Sign in</h1>
-        </header>
+          <h1 className="visually-hidden">WTW</h1>
 
-        <div className="sign-in user-page__content">
-          <form action="#" className="sign-in__form">
-            <div className="sign-in__fields">
-              <div className="sign-in__field">
-                <input className="sign-in__input" type="email" placeholder="Email address" name="user-email" id="user-email" />
-                <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
-              </div>
-              <div className="sign-in__field">
-                <input className="sign-in__input" type="password" placeholder="Password" name="user-password" id="user-password" />
-                <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
-              </div>
-            </div>
-            <div className="sign-in__submit">
-              <button className="sign-in__btn" type="submit">Sign in</button>
-            </div>
-          </form>
+          <header className="page-header">
+            <Logo/>
+
+            <nav className="breadcrumbs">
+              <ul className="breadcrumbs__list">
+                <li className="breadcrumbs__item">
+                  <Link to={`/${AppLink.Films}/${film?.id}`} className="breadcrumbs__link">{film?.name}</Link>
+                </li>
+                <li className="breadcrumbs__item">
+                  <a className="breadcrumbs__link">Add review</a>
+                </li>
+              </ul>
+            </nav>
+
+            <UserBlock user={user}/>
+          </header>
+
+          <div className="film-card__poster film-card__poster--small">
+            <img src={film?.posterImage} alt={imagePosterAlt} width="218" height="327" />
+          </div>
         </div>
 
-        <footer className="page-footer">
-          <div className="logo">
-            <a href="main.html" className="logo__link logo__link--light">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </a>
-          </div>
+        <ReviewForm film={film}/>
 
-          <div className="copyright">
-            <p>© 2019 What to watch Ltd.</p>
-          </div>
-        </footer>
-      </div>
+      </section>
     </React.Fragment>
   );
 }
 
-export default SignIn;
+export default AddReviewPage;

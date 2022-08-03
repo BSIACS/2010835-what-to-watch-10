@@ -1,6 +1,6 @@
 import React from 'react';
 
-function NotFound() : JSX.Element{
+function NotFoundPage() : JSX.Element{
 
   return (
     <div>
@@ -9,4 +9,4 @@ function NotFound() : JSX.Element{
   );
 }
 
-export default NotFound;
+export default NotFoundPage;

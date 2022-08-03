@@ -7,7 +7,7 @@ import UserBlock from '../../components/user-block/user-block';
 import Logo from '../../components/logo/logo';
 
 
-function Main({promoFilm, films, user, favoriteFilms} : MainProps) : JSX.Element{
+function MainPage({promoFilm, films, user, favoriteFilms} : MainProps) : JSX.Element{
   const favoriteFilmsCount = favoriteFilms.length;
 
   return (
@@ -108,4 +108,4 @@ function Main({promoFilm, films, user, favoriteFilms} : MainProps) : JSX.Element
     </React.Fragment>);
 }
 
-export default Main;
+export default MainPage;

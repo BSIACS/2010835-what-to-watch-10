@@ -1,14 +1,7 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
 import PlayerProps from '../../types/props/player-props';
 
 function Player({films} : PlayerProps) : JSX.Element{
-  const params = useParams();
-  const id = params.id;
-  const film = films.find((element) => element.id === Number(id));
-
-  // eslint-disable-next-line no-console
-  console.log(film);
 
   return (
     <React.Fragment>
