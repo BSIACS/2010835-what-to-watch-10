@@ -1,14 +1,12 @@
-import React from 'react';
 import DetailTabProps from '../../../types/props/detail-tab-props';
 import { getFilmRunTime } from '../../../utils';
-//film?.starring.map((artist) => `${artist}, \n`)
 
 
 function Details({film} : DetailTabProps) : JSX.Element{
   const artistsString = film?.starring.map((artist, index) => {
     const separator = film?.starring.length - 1 === index ? '' : ', ';
 
-    return <>{artist}{separator}<br/></>;
+    return <span key={artist}>{artist}{separator}<br/></span>;
   });
 
   return (
