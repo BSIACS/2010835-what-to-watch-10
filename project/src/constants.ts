@@ -35,7 +35,8 @@ export const MAX_FILM_RATING = 10;
 
 export const PLAYBACK_DELAY_MS = 1000;
 
-export const MAX_DISPLAED_QUANTITY = 4;
+export const MAX_DISPLAED_SIMILAR_FILM_QUANTITY = 4;
+export const FILM_TO_SHOW_QUANTITY_BY_DEFAULT = 8;
 
 export const MONTHS_NAMES = ['January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December'

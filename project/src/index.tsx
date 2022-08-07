@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
-//import {films, promoFilm} from '../src/mock/films';
 import { promoFilm} from '../src/mock/films';
 import { user } from './mock/user';
 import { Provider } from 'react-redux';
