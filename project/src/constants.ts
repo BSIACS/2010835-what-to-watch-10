@@ -40,3 +40,5 @@ export const MAX_DISPLAED_QUANTITY = 4;
 export const MONTHS_NAMES = ['January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December'
 ];
+
+export const DEFAULT_FILE_LIST_GENRE = 'AllGenres';

@@ -1,16 +1,11 @@
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
+import FilmList from '../../components/films-list/film-list';
 import Logo from '../../components/logo/logo';
-import ReviewForm from '../../components/review-form/review-form';
 import UserBlock from '../../components/user-block/user-block';
-import { AppLink } from '../../constants';
-import AddReviewProps from '../../types/props/add-review-props';
+import MyListProps from '../../types/props/mylist-props';
 
-function AddReview({films, user} : AddReviewProps) : JSX.Element{
-  const params = useParams();
-  const id = params.id;
-  const film = films.find((element) => element.id === Number(id));
-  const imagePosterAlt = `${film?.name} poster`;
+function MyListPage({films, user} : MyListProps) : JSX.Element{
+  const favoriteFilmsCount = films.length;
 
   return (
     <React.Fragment>
@@ -43,41 +38,40 @@ function AddReview({films, user} : AddReviewProps) : JSX.Element{
         </svg>
       </div>
 
-      <section className="film-card film-card--full" style={{backgroundColor: film?.backgroundColor}}>
-        <div className="film-card__header">
-          <div className="film-card__bg">
-            <img src={film?.backgroundImage} alt={film?.name} />
+      <div className="user-page">
+        <header className="page-header user-page__head">
+
+          <Logo/>
+
+          <h1 className="page-title user-page__title">My list <span className="user-page__film-count">{favoriteFilmsCount}</span></h1>
+
+          <UserBlock user={user}/>
+
+        </header>
+
+        <section className="catalog">
+          <h2 className="catalog__title visually-hidden">Catalog</h2>
+
+          <FilmList films={films} filmsGenre={undefined} maxDisplayedQuantity={undefined}/>
+
+        </section>
+
+        <footer className="page-footer">
+          <div className="logo">
+            <a href="main.html" className="logo__link logo__link--light">
+              <span className="logo__letter logo__letter--1">W</span>
+              <span className="logo__letter logo__letter--2">T</span>
+              <span className="logo__letter logo__letter--3">W</span>
+            </a>
           </div>
 
-          <h1 className="visually-hidden">WTW</h1>
-
-          <header className="page-header">
-            <Logo/>
-
-            <nav className="breadcrumbs">
-              <ul className="breadcrumbs__list">
-                <li className="breadcrumbs__item">
-                  <Link to={`/${AppLink.Films}/${film?.id}`} className="breadcrumbs__link">{film?.name}</Link>
-                </li>
-                <li className="breadcrumbs__item">
-                  <a className="breadcrumbs__link">Add review</a>
-                </li>
-              </ul>
-            </nav>
-
-            <UserBlock user={user}/>
-          </header>
-
-          <div className="film-card__poster film-card__poster--small">
-            <img src={film?.posterImage} alt={imagePosterAlt} width="218" height="327" />
+          <div className="copyright">
+            <p>© 2019 What to watch Ltd.</p>
           </div>
-        </div>
-
-        <ReviewForm film={film}/>
-
-      </section>
+        </footer>
+      </div>
     </React.Fragment>
   );
 }
 
-export default AddReview;
+export default MyListPage;

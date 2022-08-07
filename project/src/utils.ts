@@ -1,3 +1,4 @@
+import Film from './types/film';
 import RatingLevel from './types/rating-level';
 
 const lightenDarkenColor = (col : string | undefined, amt : number) => {
@@ -95,4 +96,14 @@ const getFilmRunTime = (duration : number | undefined) => {
   return `${hours} ${minutes}`;
 };
 
-export {lightenDarkenColor, getRatingLevel, getRandomPositiveNumber, getUniqueRandomNumbers, getFilmRunTime};
+const getSetOfAvailableGenres = (filmsToFilter : Film[]) : Set<string> => {
+  const genres : Set<string> = new Set<string>();
+
+  filmsToFilter.forEach((film) => {
+    genres.add(film.genre);
+  });
+
+  return genres;
+};
+
+export {lightenDarkenColor, getRatingLevel, getRandomPositiveNumber, getUniqueRandomNumbers, getFilmRunTime, getSetOfAvailableGenres};
