@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import MainProps from '../../types/props/main-props';
 import Footer from '../../components/footer/footer';
 import FilmList from '../../components/films-list/film-list';
@@ -12,10 +12,13 @@ import { useAppDispatch } from '../../hooks';
 
 function MainPage({promoFilm, films, user, favoriteFilms} : MainProps) : JSX.Element{
   const favoriteFilmsCount = favoriteFilms.length;
+
   const dispatch = useAppDispatch();
 
-  dispatch(resetFilmsToShowQuantity());
-  dispatch(resetFilterSelectedGenre());
+  useEffect(() => {
+    dispatch(resetFilmsToShowQuantity());
+    dispatch(resetFilterSelectedGenre());
+  }, [dispatch]);
 
   return (
     <React.Fragment>

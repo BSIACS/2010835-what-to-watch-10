@@ -14,8 +14,6 @@ function ShowMoreButton({films} : ShowMoreButtonProps) : JSX.Element{
 
   if(selectedGenre !== DEFAULT_FILE_LIST_GENRE){
     filteredFilms = films.filter((film) => film.genre === selectedGenre);
-    // eslint-disable-next-line no-console
-    console.log(selectedGenre, ' - films - ', films, 'filtered films - ', filteredFilms);
   }
   else{
     filteredFilms = films;
