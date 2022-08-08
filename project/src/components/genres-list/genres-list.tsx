@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { changeGenre } from '../../store/action';
+import { changeGenre, resetFilmsToShowQuantity } from '../../store/action';
 import GenresListProps from '../../types/props/genres-list-props';
 import { getSetOfAvailableGenres } from '../../utils';
 
@@ -11,7 +11,10 @@ function GenresList({films} : GenresListProps) : JSX.Element{
   const CATALOG_GENRES_ITEM_ACTIVE = 'catalog__genres-item--active';
 
   //Обработчик выбора жанра отображаемого фильма
-  const genreLinkClickHandler = (evt : React.MouseEvent<HTMLSpanElement>) => dispatch(changeGenre((evt.target as HTMLSpanElement).dataset['value']));
+  const genreLinkClickHandler = (evt : React.MouseEvent<HTMLSpanElement>) => {
+    dispatch(changeGenre((evt.target as HTMLSpanElement).dataset['value']));
+    dispatch(resetFilmsToShowQuantity());
+  };
 
   //Получаем массив с доступными для выбора жанрами
   const genres = Array.from(getSetOfAvailableGenres(films));

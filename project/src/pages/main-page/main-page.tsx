@@ -5,12 +5,17 @@ import FilmList from '../../components/films-list/film-list';
 import UserBlock from '../../components/user-block/user-block';
 import Logo from '../../components/logo/logo';
 import GenresList from '../../components/genres-list/genres-list';
-//import { store } from '../../store';
 import ShowMoreButton from '../../components/show-more-button/show-more-button';
+import { resetFilmsToShowQuantity, resetFilterSelectedGenre } from '../../store/action';
+import { useAppDispatch } from '../../hooks';
 
 
 function MainPage({promoFilm, films, user, favoriteFilms} : MainProps) : JSX.Element{
   const favoriteFilmsCount = favoriteFilms.length;
+  const dispatch = useAppDispatch();
+
+  dispatch(resetFilmsToShowQuantity());
+  dispatch(resetFilterSelectedGenre());
 
   return (
     <React.Fragment>

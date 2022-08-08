@@ -13,6 +13,7 @@ import AppProps from '../../types/props/app-props';
 import PrivateRoute from '../private-route/private-route';
 
 function App({promoFilm, films, user} : AppProps): JSX.Element {
+
   return (
     <BrowserRouter>
       <Routes>
