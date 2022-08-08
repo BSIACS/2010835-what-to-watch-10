@@ -1,15 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import MainProps from '../../types/props/main-props';
 import Footer from '../../components/footer/footer';
 import FilmList from '../../components/films-list/film-list';
 import UserBlock from '../../components/user-block/user-block';
 import Logo from '../../components/logo/logo';
 import GenresList from '../../components/genres-list/genres-list';
-import { store } from '../../store';
+import ShowMoreButton from '../../components/show-more-button/show-more-button';
+import { resetFilmsToShowQuantity, resetFilterSelectedGenre } from '../../store/action';
+import { useAppDispatch } from '../../hooks';
 
 
 function MainPage({promoFilm, films, user, favoriteFilms} : MainProps) : JSX.Element{
   const favoriteFilmsCount = favoriteFilms.length;
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(resetFilmsToShowQuantity());
+    dispatch(resetFilterSelectedGenre());
+  }, [dispatch]);
 
   return (
     <React.Fragment>
@@ -65,11 +74,10 @@ function MainPage({promoFilm, films, user, favoriteFilms} : MainProps) : JSX.Ele
 
           <GenresList films={films}/>
 
-          <FilmList films={films} filmsGenre={store.getState().selectedGenre} maxDisplayedQuantity={undefined}/>
+          <FilmList films={films} isFavoriteFilmList={false} />
 
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
-          </div>
+          <ShowMoreButton films={films}/>
+
         </section>
 
         <Footer/>

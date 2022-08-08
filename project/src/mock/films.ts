@@ -242,6 +242,8 @@ const films : Film[] = Array.from({ length: 20 }, getRandomFilm);
 
 const favoriteFilms : Film[] = Array.from({ length: 7 }, getRandomFilm);
 
-export { films, favoriteFilms, promoFilm };
+const moreLikeThisFilms : Film[] = Array.from({ length: 5 }, getRandomFilm);
+
+export { films, favoriteFilms, promoFilm, moreLikeThisFilms };
 
 

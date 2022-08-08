@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { AppLink } from '../../constants';
 
+
 function Logo() : JSX.Element {
 
   return (

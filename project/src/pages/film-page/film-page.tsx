@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
-import FilmList from '../../components/films-list/film-list';
 import Footer from '../../components/footer/footer';
 import Logo from '../../components/logo/logo';
+import MoreLikeThisFilmList from '../../components/more-like-this-film-list/more-like-this-film-list';
 import Tabs from '../../components/tabs/tabs';
 import UserBlock from '../../components/user-block/user-block';
-import { AppLink, MAX_DISPLAED_QUANTITY } from '../../constants';
+import { AppLink } from '../../constants';
+import { moreLikeThisFilms } from '../../mock/films';
 import FilmProps from '../../types/props/film-props';
 
 function FilmPage({films, user, favoriteFilms, comments} : FilmProps) : JSX.Element{
@@ -108,7 +109,7 @@ function FilmPage({films, user, favoriteFilms, comments} : FilmProps) : JSX.Elem
           <h2 className="catalog__title">More like this</h2>
 
           <div className="catalog__films-list">
-            <FilmList films={films} filmsGenre={film?.genre} maxDisplayedQuantity={MAX_DISPLAED_QUANTITY}/>
+            <MoreLikeThisFilmList similarFilms={moreLikeThisFilms}/>
           </div>
         </section>
 
