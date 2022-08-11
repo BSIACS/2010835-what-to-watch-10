@@ -1,8 +1,8 @@
-import Film from '../film';
+//import Film from '../film';
 import User from '../user';
 
 type AppProps = {
-  promoFilm : Film,
+  //promoFilm : Film,
   user : User,
 }
 

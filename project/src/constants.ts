@@ -46,4 +46,5 @@ export const DEFAULT_FILE_LIST_GENRE = 'AllGenres';
 
 export enum APIRoute {
   Films = '/films',
+  Promo = '/promo',
 }
