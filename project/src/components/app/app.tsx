@@ -14,12 +14,12 @@ import AppProps from '../../types/props/app-props';
 import PrivateRoute from '../private-route/private-route';
 
 function App({promoFilm, user} : AppProps): JSX.Element {
-  const {films} = useAppSelector((state) => state);
+  const {films, isDataLoaded} = useAppSelector((state) => state);
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route index element={<MainPage promoFilm={promoFilm} films={films} user={user} favoriteFilms={favoriteFilms}/>} />
+        <Route index element={<MainPage promoFilm={promoFilm} isDataLoaded={isDataLoaded} films={films} user={user} favoriteFilms={favoriteFilms}/>} />
         <Route path={AppRoute.SignIn} element={<SignInPage />} />
         <Route path={AppRoute.Film} element={<FilmPage films={films} user={user} favoriteFilms={favoriteFilms} comments={comments}/>}/>
         <Route path={AppRoute.AddReview} element={<PrivateRoute authorisationStatus={AuthorisationStatus.Auth}><AddReviewPage films={films} user={user}/></PrivateRoute>}/>

@@ -7,3 +7,4 @@ export const getFilmsByGenre = createAction('getFilmsByGenre');
 export const showMoreFilms = createAction('showMoreFilms');
 export const resetFilmsToShowQuantity = createAction('resetFilmsToShowQuantity');
 export const resetFilterSelectedGenre = createAction('resetFilterSelectedGenre');
+export const setIsDataLoaded = createAction('setIsDataLoaded');
