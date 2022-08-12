@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppRoute, AuthorisationStatus } from '../../constants';
+import { useAppSelector } from '../../hooks';
 import { comments } from '../../mock/comments';
 import { favoriteFilms } from '../../mock/films';
 import AddReviewPage from '../../pages/add-review-page/add-review-page';
@@ -12,12 +13,13 @@ import SignInPage from '../../pages/sign-in-page/sign-in-page';
 import AppProps from '../../types/props/app-props';
 import PrivateRoute from '../private-route/private-route';
 
-function App({promoFilm, films, user} : AppProps): JSX.Element {
+function App({user} : AppProps): JSX.Element {
+  const {films, isDataLoaded, promo} = useAppSelector((state) => state);
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route index element={<MainPage promoFilm={promoFilm} films={films} user={user} favoriteFilms={favoriteFilms}/>} />
+        <Route index element={<MainPage promoFilm={promo} isDataLoaded={isDataLoaded} films={films} user={user} favoriteFilms={favoriteFilms}/>} />
         <Route path={AppRoute.SignIn} element={<SignInPage />} />
         <Route path={AppRoute.Film} element={<FilmPage films={films} user={user} favoriteFilms={favoriteFilms} comments={comments}/>}/>
         <Route path={AppRoute.AddReview} element={<PrivateRoute authorisationStatus={AuthorisationStatus.Auth}><AddReviewPage films={films} user={user}/></PrivateRoute>}/>

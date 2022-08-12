@@ -238,12 +238,10 @@ const promoFilm = {
 
 const getRandomFilm = () : Film => ({...filmsData[getRandomPositiveNumber(0, filmsData.length - 1)], id: generateId()});
 
-const films : Film[] = Array.from({ length: 20 }, getRandomFilm);
-
 const favoriteFilms : Film[] = Array.from({ length: 7 }, getRandomFilm);
 
 const moreLikeThisFilms : Film[] = Array.from({ length: 5 }, getRandomFilm);
 
-export { films, favoriteFilms, promoFilm, moreLikeThisFilms };
+export { favoriteFilms, promoFilm, moreLikeThisFilms };
 
 

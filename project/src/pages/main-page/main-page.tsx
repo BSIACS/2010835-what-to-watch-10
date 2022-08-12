@@ -1,16 +1,15 @@
 import React, { useEffect } from 'react';
-import MainProps from '../../types/props/main-props';
+import MainPageProps from '../../types/props/main-props';
 import Footer from '../../components/footer/footer';
 import FilmList from '../../components/films-list/film-list';
 import UserBlock from '../../components/user-block/user-block';
 import Logo from '../../components/logo/logo';
-import GenresList from '../../components/genres-list/genres-list';
-import ShowMoreButton from '../../components/show-more-button/show-more-button';
 import { resetFilmsToShowQuantity, resetFilterSelectedGenre } from '../../store/action';
 import { useAppDispatch } from '../../hooks';
+import LoadingScreen from '../../components/loading-screen/loading-screen';
 
 
-function MainPage({promoFilm, films, user, favoriteFilms} : MainProps) : JSX.Element{
+function MainPage({promoFilm, isDataLoaded, films, user, favoriteFilms} : MainPageProps) : JSX.Element{
   const favoriteFilmsCount = favoriteFilms.length;
 
   const dispatch = useAppDispatch();
@@ -24,7 +23,7 @@ function MainPage({promoFilm, films, user, favoriteFilms} : MainProps) : JSX.Ele
     <React.Fragment>
       <section className="film-card">
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+          <img src={promoFilm.backgroundImage} alt={promoFilm.name} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -38,7 +37,7 @@ function MainPage({promoFilm, films, user, favoriteFilms} : MainProps) : JSX.Ele
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src={promoFilm.posterImage} alt="The Grand Budapest Hotel poster" width="218" height="327" />
+              <img src={promoFilm.posterImage} alt={`${promoFilm.name} poster`} width="218" height="327" />
             </div>
 
             <div className="film-card__desc">
@@ -72,11 +71,7 @@ function MainPage({promoFilm, films, user, favoriteFilms} : MainProps) : JSX.Ele
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <GenresList films={films}/>
-
-          <FilmList films={films} isFavoriteFilmList={false} />
-
-          <ShowMoreButton films={films}/>
+          {!isDataLoaded ? <LoadingScreen/> : <FilmList films={films} isFavoriteFilmList={false} />}
 
         </section>
 
