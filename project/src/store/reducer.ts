@@ -1,11 +1,12 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { DEFAULT_FILE_LIST_GENRE, FILM_TO_SHOW_QUANTITY_BY_DEFAULT } from '../constants';
 import Film from '../types/film';
-import { changeGenre, loadFilms, loadPromo, resetFilmsToShowQuantity, resetFilterSelectedGenre, setIsDataLoaded, showMoreFilms } from './action';
+import { changeGenre, loadFilm, loadFilms, loadPromo, resetFilm, resetFilmsToShowQuantity, resetFilterSelectedGenre, setIsDataLoaded, showMoreFilms } from './action';
 
 type InitialState = {
   films : Film[],
   promo : Film,
+  film : Film | null,
   selectedGenre : string | undefined,
   filmsToShowQuantity : number,
   isDataLoaded: boolean,
@@ -13,6 +14,7 @@ type InitialState = {
 
 const initialState : InitialState = {
   films: [],
+  film: null,
   promo : ({} as Film),
   selectedGenre: DEFAULT_FILE_LIST_GENRE,
   filmsToShowQuantity: FILM_TO_SHOW_QUANTITY_BY_DEFAULT,
@@ -26,6 +28,8 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(resetFilmsToShowQuantity, (state) => {state.filmsToShowQuantity = FILM_TO_SHOW_QUANTITY_BY_DEFAULT;})
     .addCase(resetFilterSelectedGenre, (state) => {state.selectedGenre = DEFAULT_FILE_LIST_GENRE;})
     .addCase(loadFilms, (state, action) => {state.films = action.payload;})
+    .addCase(loadFilm, (state, action) => {state.film = action.payload;})
+    .addCase(resetFilm, (state) => {state.film = null;})
     .addCase(loadPromo, (state, action) => {state.promo = action.payload;})
     .addCase(setIsDataLoaded, (state) => {state.isDataLoaded = true;});
 });

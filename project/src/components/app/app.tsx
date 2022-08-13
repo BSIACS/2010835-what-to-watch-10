@@ -21,7 +21,7 @@ function App({user} : AppProps): JSX.Element {
       <Routes>
         <Route index element={<MainPage promoFilm={promo} isDataLoaded={isDataLoaded} films={films} user={user} favoriteFilms={favoriteFilms}/>} />
         <Route path={AppRoute.SignIn} element={<SignInPage />} />
-        <Route path={AppRoute.Film} element={<FilmPage films={films} user={user} favoriteFilms={favoriteFilms} comments={comments}/>}/>
+        <Route path={AppRoute.Film} element={<FilmPage user={user} favoriteFilms={favoriteFilms} comments={comments}/>}/>
         <Route path={AppRoute.AddReview} element={<PrivateRoute authorisationStatus={AuthorisationStatus.Auth}><AddReviewPage films={films} user={user}/></PrivateRoute>}/>
         <Route path={AppRoute.Player} element={<PlayerPage films={films}/>} />
         <Route path={AppRoute.Mylist} element={<PrivateRoute authorisationStatus={AuthorisationStatus.Auth}><MyListPage films={films} user={user}/></PrivateRoute>}/>

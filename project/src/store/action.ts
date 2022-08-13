@@ -3,6 +3,8 @@ import Film from '../types/film';
 
 export const changeGenre = createAction<string | undefined>('changeGenre');
 export const loadFilms = createAction<Film[]>('loadFilms');
+export const loadFilm = createAction<Film>('loadFilm');
+export const resetFilm = createAction('resetFilm');
 export const loadPromo = createAction<Film>('loadPromo');
 export const getFilmsByGenre = createAction('getFilmsByGenre');
 export const showMoreFilms = createAction('showMoreFilms');
