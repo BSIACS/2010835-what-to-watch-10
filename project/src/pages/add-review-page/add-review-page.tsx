@@ -6,7 +6,7 @@ import UserBlock from '../../components/user-block/user-block';
 import { AppLink } from '../../constants';
 import AddReviewProps from '../../types/props/add-review-props';
 
-function AddReviewPage({films, user} : AddReviewProps) : JSX.Element{
+function AddReviewPage({films} : AddReviewProps) : JSX.Element{
   const params = useParams();
   const id = params.id;
   const film = films.find((element) => element.id === Number(id));
@@ -65,7 +65,7 @@ function AddReviewPage({films, user} : AddReviewProps) : JSX.Element{
               </ul>
             </nav>
 
-            <UserBlock user={user}/>
+            <UserBlock />
           </header>
 
           <div className="film-card__poster film-card__poster--small">

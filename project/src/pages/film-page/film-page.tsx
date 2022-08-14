@@ -14,7 +14,7 @@ import { resetFilm } from '../../store/action';
 import { fetchFilmAction } from '../../store/api-actions';
 import FilmProps from '../../types/props/film-props';
 
-function FilmPage({user, favoriteFilms, comments} : FilmProps) : JSX.Element{
+function FilmPage({favoriteFilms, comments} : FilmProps) : JSX.Element{
   const params = useParams();
   const id = Number(params.id);
 
@@ -77,7 +77,7 @@ function FilmPage({user, favoriteFilms, comments} : FilmProps) : JSX.Element{
             <header className="page-header film-card__head">
               <Logo/>
 
-              <UserBlock user={user}/>
+              <UserBlock />
             </header>
 
             <div className="film-card__wrap">

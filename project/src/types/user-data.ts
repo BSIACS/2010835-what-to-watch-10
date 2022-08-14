@@ -1,9 +1,9 @@
-type User = {
+type UserData = {
   avatarUrl: string
   email: string
   id: number
   name: string
   token: string
-}
+} | null
 
-export default User;
+export default UserData;

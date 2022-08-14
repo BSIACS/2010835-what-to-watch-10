@@ -8,9 +8,10 @@ import GenresList from '../genres-list/genres-list';
 import ShowMoreButton from '../show-more-button/show-more-button';
 
 
-function FilmList({films, isFavoriteFilmList} : FilmListProps) : JSX.Element{
+function FilmList({isFavoriteFilmList} : FilmListProps) : JSX.Element{
   const selectedGenre = useAppSelector((state) => state.selectedGenre);
   const filmsToShowQuantity = useAppSelector((state) => state.filmsToShowQuantity);
+  const films = useAppSelector((state) => state.films);
   let filteredFilmList = films;
 
   if(!isFavoriteFilmList && selectedGenre !== DEFAULT_FILE_LIST_GENRE){

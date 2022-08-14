@@ -1,7 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { DEFAULT_FILE_LIST_GENRE, FILM_TO_SHOW_QUANTITY_BY_DEFAULT } from '../constants';
+import { AuthorizationStatus, DEFAULT_FILE_LIST_GENRE, FILM_TO_SHOW_QUANTITY_BY_DEFAULT } from '../constants';
 import Film from '../types/film';
-import { changeGenre, loadFilm, loadFilms, loadPromo, resetFilm, resetFilmsToShowQuantity, resetFilterSelectedGenre, setIsDataLoaded, showMoreFilms } from './action';
+import User from '../types/user-data';
+import { changeGenre, loadFilm, loadFilms, loadPromo, resetFilm, resetFilmsToShowQuantity, resetFilterSelectedGenre, setAuthorized, setIsDataLoaded, setNotAuthorized, setUserData, showMoreFilms } from './action';
 
 type InitialState = {
   films : Film[],
@@ -9,7 +10,9 @@ type InitialState = {
   film : Film | null,
   selectedGenre : string | undefined,
   filmsToShowQuantity : number,
-  isDataLoaded: boolean,
+  isDataLoaded : boolean,
+  authorizationStatus : AuthorizationStatus,
+  user : User,
 }
 
 const initialState : InitialState = {
@@ -19,6 +22,8 @@ const initialState : InitialState = {
   selectedGenre: DEFAULT_FILE_LIST_GENRE,
   filmsToShowQuantity: FILM_TO_SHOW_QUANTITY_BY_DEFAULT,
   isDataLoaded: false,
+  authorizationStatus: AuthorizationStatus.Unknown,
+  user: null,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -31,6 +36,9 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(loadFilm, (state, action) => {state.film = action.payload;})
     .addCase(resetFilm, (state) => {state.film = null;})
     .addCase(loadPromo, (state, action) => {state.promo = action.payload;})
+    .addCase(setUserData, (state, action) => {state.user = action.payload;})
+    .addCase(setAuthorized, (state) => {state.authorizationStatus = AuthorizationStatus.Auth;})
+    .addCase(setNotAuthorized, (state) => {state.authorizationStatus = AuthorizationStatus.NoAuth;})
     .addCase(setIsDataLoaded, (state) => {state.isDataLoaded = true;});
 });
 

@@ -9,7 +9,7 @@ import { useAppDispatch } from '../../hooks';
 import LoadingScreen from '../../components/loading-screen/loading-screen';
 
 
-function MainPage({promoFilm, isDataLoaded, films, user, favoriteFilms} : MainPageProps) : JSX.Element{
+function MainPage({promoFilm, isDataLoaded, films, favoriteFilms} : MainPageProps) : JSX.Element{
   const favoriteFilmsCount = favoriteFilms.length;
 
   const dispatch = useAppDispatch();
@@ -31,7 +31,7 @@ function MainPage({promoFilm, isDataLoaded, films, user, favoriteFilms} : MainPa
         <header className="page-header film-card__head">
           <Logo/>
 
-          <UserBlock user={user}/>
+          <UserBlock />
         </header>
 
         <div className="film-card__wrap">

@@ -1,4 +1,4 @@
-export enum AuthorisationStatus {
+export enum AuthorizationStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
@@ -19,6 +19,7 @@ export enum AppLink {
   Player = 'player',
   Review = 'review',
   Mylist = 'mylist',
+  Logout = 'logout',
 }
 
 export enum FilmTabs {
@@ -47,4 +48,8 @@ export const DEFAULT_FILE_LIST_GENRE = 'AllGenres';
 export enum APIRoute {
   Films = '/films',
   Promo = '/promo',
+  Login = '/login',
+  Logout = '/logout',
 }
+
+
