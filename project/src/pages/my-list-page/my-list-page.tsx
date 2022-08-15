@@ -4,7 +4,7 @@ import Logo from '../../components/logo/logo';
 import UserBlock from '../../components/user-block/user-block';
 import MyListProps from '../../types/props/mylist-props';
 
-function MyListPage({films, user} : MyListProps) : JSX.Element{
+function MyListPage({films} : MyListProps) : JSX.Element{
   const favoriteFilmsCount = films.length;
 
   return (
@@ -45,7 +45,7 @@ function MyListPage({films, user} : MyListProps) : JSX.Element{
 
           <h1 className="page-title user-page__title">My list <span className="user-page__film-count">{favoriteFilmsCount}</span></h1>
 
-          <UserBlock user={user}/>
+          <UserBlock />
 
         </header>
 

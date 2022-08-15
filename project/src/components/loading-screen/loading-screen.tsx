@@ -8,7 +8,6 @@ function LoadingScreen(): JSX.Element {
           margin-top: 180px;
           margin-bottom: 180px;
           text-align: center;
-
         }
       `}
       </style>
