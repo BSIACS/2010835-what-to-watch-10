@@ -1,7 +1,7 @@
 import React from 'react';
 import RatingStarProps from '../../../types/props/rating-star-props';
 
-function RatingStar({fieldChangeHandler, elementNumber, rating} : RatingStarProps) : JSX.Element{
+function RatingStar({fieldChangeHandler, elementNumber, rating, isDisabled} : RatingStarProps) : JSX.Element{
   const id = `star-${elementNumber}`;
   const isChecked = rating === elementNumber;
 

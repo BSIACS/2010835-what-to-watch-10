@@ -6,32 +6,43 @@ import Logo from '../../components/logo/logo';
 import MoreLikeThisFilmList from '../../components/more-like-this-film-list/more-like-this-film-list';
 import Tabs from '../../components/tabs/tabs';
 import UserBlock from '../../components/user-block/user-block';
-import { AppLink } from '../../constants';
+import { AppLink, AuthorizationStatus } from '../../constants';
 import { useAppSelector } from '../../hooks';
 import { moreLikeThisFilms } from '../../mock/films';
 import { store } from '../../store';
-import { resetFilm } from '../../store/action';
-import { fetchFilmAction } from '../../store/api-actions';
-import FilmProps from '../../types/props/film-props';
+import { resetFilm, setIsDataNotFound } from '../../store/action';
+import { fetchCommentsAction, fetchFilmAction } from '../../store/api-actions';
+import NotFoundPage from '../not-found-page/not-found-page';
 
-function FilmPage({favoriteFilms, comments} : FilmProps) : JSX.Element{
+function FilmPage() : JSX.Element{
   const params = useParams();
   const id = Number(params.id);
 
-  const favoriteFilmsCount = favoriteFilms.length;
+  const favoriteFilmsCount = 7;
 
   const film = useAppSelector((state) => state.film);
+  const filmComments = useAppSelector((state) => state.comments);
+  const isDataNotFound = useAppSelector((state) => state.isDataNotFound);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+
 
   useEffect(() => {
     store.dispatch(fetchFilmAction({id: id}));
+    store.dispatch(fetchCommentsAction({id: id}));
 
     return () => {
       store.dispatch(resetFilm());
+      store.dispatch(setIsDataNotFound(false));
     };
   }, [id]);
 
+  if(isDataNotFound){
+    return (
+      <NotFoundPage/>
+    );
+  }
 
-  if(film){
+  if(film && filmComments){
     return (
       <React.Fragment>
         <div className="visually-hidden">
@@ -104,7 +115,7 @@ function FilmPage({favoriteFilms, comments} : FilmProps) : JSX.Element{
                     <span>My list</span>
                     <span className="film-card__count">{favoriteFilmsCount}</span>
                   </button>
-                  <Link to={AppLink.Review} className="btn film-card__button">Add review</Link>
+                  {authorizationStatus === AuthorizationStatus.Auth ? <Link to={AppLink.Review} className="btn film-card__button">Add review</Link> : ''}
                 </div>
               </div>
             </div>
@@ -116,7 +127,7 @@ function FilmPage({favoriteFilms, comments} : FilmProps) : JSX.Element{
                 <img src={film?.posterImage} alt="The Grand Budapest Hotel poster" width="218" height="327" />
               </div>
 
-              <Tabs film={film} comments={comments}/>
+              <Tabs film={film} comments={filmComments}/>
             </div>
           </div>
         </section>

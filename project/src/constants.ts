@@ -50,6 +50,17 @@ export enum APIRoute {
   Promo = '/promo',
   Login = '/login',
   Logout = '/logout',
+  Comments = '/comments',
 }
+
+export enum RequestStatus {
+  SUCCESS = 'SUCCESS',
+  ERROR = 'ERROR',
+  IN_PROGRESS = 'IN_PROGRESS',
+  READY = 'READY',
+}
+
+export const MIN_REVIEW_TEXT_LENGTH = 50;
+export const MAX_REVIEW_TEXT_LENGTH = 400;
 
 

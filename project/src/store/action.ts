@@ -1,4 +1,5 @@
 import {createAction} from '@reduxjs/toolkit';
+import Comment from '../types/comment';
 import Film from '../types/film';
 import UserData from '../types/user-data';
 
@@ -15,3 +16,6 @@ export const setIsDataLoaded = createAction('setIsDataLoaded');
 export const setAuthorized = createAction('setAuthorized');
 export const setNotAuthorized = createAction('setNotAuthorized');
 export const setUserData = createAction<UserData>('setUserData');
+export const setIsDataNotFound = createAction<boolean>('setIsDataNotFound');
+export const loadComments = createAction<Comment[]>('loadComments');
+export const loadFavoriteFilms = createAction<Film[]>('loadFavoriteFilms');

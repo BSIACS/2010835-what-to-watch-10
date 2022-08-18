@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppRoute } from '../../constants';
 import { useAppSelector } from '../../hooks';
-import { comments } from '../../mock/comments';
 import { favoriteFilms } from '../../mock/films';
 import AddReviewPage from '../../pages/add-review-page/add-review-page';
 import FilmPage from '../../pages/film-page/film-page';
@@ -20,7 +19,7 @@ function App(): JSX.Element {
       <Routes>
         <Route index element={<MainPage promoFilm={promo} isDataLoaded={isDataLoaded} films={films} favoriteFilms={favoriteFilms}/>} />
         <Route path={AppRoute.SignIn} element={<SignInPage />} />
-        <Route path={AppRoute.Film} element={<FilmPage favoriteFilms={favoriteFilms} comments={comments}/>}/>
+        <Route path={AppRoute.Film} element={<FilmPage/>}/>
         <Route path={AppRoute.AddReview} element={<PrivateRoute><AddReviewPage films={films}/></PrivateRoute>}/>
         <Route path={AppRoute.Player} element={<PlayerPage films={films}/>} />
         <Route path={AppRoute.Mylist} element={<PrivateRoute><MyListPage films={films}/></PrivateRoute>}/>
