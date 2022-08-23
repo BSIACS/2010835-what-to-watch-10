@@ -19,3 +19,7 @@ export const setUserData = createAction<UserData>('setUserData');
 export const setIsDataNotFound = createAction<boolean>('setIsDataNotFound');
 export const loadComments = createAction<Comment[]>('loadComments');
 export const loadFavoriteFilms = createAction<Film[]>('loadFavoriteFilms');
+export const loadSimilarFilms = createAction<Film[]>('loadSimilarFilms');
+export const clearSimilarFilms = createAction('clearSimilarFilms');
+export const clearFavoriteFilms = createAction('clearFavoriteFilms');
+export const setIsFavorite = createAction<Film>('setIsFavorite');

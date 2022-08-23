@@ -1,11 +1,22 @@
-import React from 'react';
-import FilmList from '../../components/films-list/film-list';
+import React, { useEffect } from 'react';
+import FavoriteFilmsList from '../../components/favorite-films-list/favorite-films-list';
 import Logo from '../../components/logo/logo';
 import UserBlock from '../../components/user-block/user-block';
-import MyListProps from '../../types/props/mylist-props';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { fetchFavoriteFilmsAction } from '../../store/api-actions';
 
-function MyListPage({films} : MyListProps) : JSX.Element{
+function MyListPage() : JSX.Element{
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchFavoriteFilmsAction());
+  },
+  [dispatch]);
+
+
+  const films = useAppSelector((state) => state.favoriteFilms);
   const favoriteFilmsCount = films.length;
+
 
   return (
     <React.Fragment>
@@ -52,7 +63,7 @@ function MyListPage({films} : MyListProps) : JSX.Element{
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <FilmList films={films} isFavoriteFilmList />
+          <FavoriteFilmsList />
 
         </section>
 

@@ -4,13 +4,15 @@ import { APIRoute, RequestStatus } from '../constants';
 import { dropToken, saveToken } from '../services/token';
 import fetchCommentsArgs from '../types/args/fetch-comments-args';
 import fetchFilmArgs from '../types/args/fetch-film-args';
+import fetchSimilarFilmsArgs from '../types/args/fetch-similar-films-args';
 import loginArgs from '../types/args/login-args';
 import SendNewCommentArgs from '../types/args/send-new-comment-args';
+import SetIsFavoriteArgs from '../types/args/set-is-favorite-args';
 import Comment from '../types/comment';
 import Film from '../types/film';
 import { AppDispatch, State } from '../types/state';
 import UserData from '../types/user-data';
-import { loadComments, loadFilm, loadFilms, loadPromo, setAuthorized, setIsDataLoaded, setIsDataNotFound, setNotAuthorized, setUserData } from './action';
+import { loadComments, loadFavoriteFilms, loadFilm, loadFilms, loadPromo, loadSimilarFilms, setAuthorized, setIsDataLoaded, setIsDataNotFound, setIsFavorite, setNotAuthorized, setUserData } from './action';
 
 
 export const fetchFilmsAction = createAsyncThunk<void, undefined, { dispatch: AppDispatch, state: State, extra: AxiosInstance}>(
@@ -33,6 +35,34 @@ export const fetchFilmAction = createAsyncThunk<void, fetchFilmArgs, { dispatch:
     }
   }
 );
+
+export const fetchFavoriteFilmsAction = createAsyncThunk<void, undefined, { dispatch: AppDispatch, state: State, extra: AxiosInstance}>(
+  'loadFavoriteFilms',
+  async (_args, {dispatch, extra: api}) => {
+    const {data} = await api.get<Film[]>(`${APIRoute.Favorite}`);
+    dispatch(loadFavoriteFilms(data));
+  }
+);
+
+export const fetchSimilarFilmsAction = createAsyncThunk<void, fetchSimilarFilmsArgs, { dispatch: AppDispatch, state: State, extra: AxiosInstance}>(
+  'loadSimilarFilms',
+  async (_args, {dispatch, extra: api}) => {
+    const {data} = await api.get<Film[]>(`/films/${_args.id}${APIRoute.Similar}`);
+    // eslint-disable-next-line no-console
+    console.log(data);
+    dispatch(loadSimilarFilms(data));
+  }
+);
+
+
+export const setIsFavoriteAction = createAsyncThunk<void, SetIsFavoriteArgs, { dispatch: AppDispatch, state: State, extra: AxiosInstance}>(
+  'setIsFavorite',
+  async (_args, {dispatch, extra: api}) => {
+    const {data} = await api.post<Film>(`${APIRoute.Favorite}/${_args.filmId}/${_args.status}`);
+    dispatch(setIsFavorite(data));
+  }
+);
+
 
 export const fetchPromoAction = createAsyncThunk<void, undefined, { dispatch: AppDispatch, state: State, extra: AxiosInstance}>(
   'loadPromo',
