@@ -4,6 +4,7 @@ import Logo from '../../components/logo/logo';
 import UserBlock from '../../components/user-block/user-block';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchFavoriteFilmsAction } from '../../store/api-actions';
+import { getFavoriteFilms } from '../../store/app-data/selectors';
 
 function MyListPage() : JSX.Element{
   const dispatch = useAppDispatch();
@@ -14,7 +15,7 @@ function MyListPage() : JSX.Element{
   [dispatch]);
 
 
-  const films = useAppSelector((state) => state.favoriteFilms);
+  const films = useAppSelector(getFavoriteFilms);
   const favoriteFilmsCount = films.length;
 
 

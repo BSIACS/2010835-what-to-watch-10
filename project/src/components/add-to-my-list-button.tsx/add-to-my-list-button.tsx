@@ -2,14 +2,12 @@ import { AddToFavoriteStatus } from '../../constants';
 import { useAppSelector } from '../../hooks';
 import { store } from '../../store';
 import { setIsFavoriteAction } from '../../store/api-actions';
+import { getFavoriteFilms } from '../../store/app-data/selectors';
 import AddToMyListButtonProps from '../../types/props/add-to-my-list-button-props';
 
 function AddToMyListButton({filmId, isFavorite} : AddToMyListButtonProps) : JSX.Element{
 
-  const favoriteFilms = useAppSelector((state) => state.favoriteFilms);
-  // eslint-disable-next-line no-console
-  console.log('AddToMyListButton render');
-
+  const favoriteFilms = useAppSelector(getFavoriteFilms);
 
   const addToMyListHandler = () => {
     store.dispatch(setIsFavoriteAction({filmId: filmId, status: isFavorite ? AddToFavoriteStatus.REMOVE : AddToFavoriteStatus.ADD}));

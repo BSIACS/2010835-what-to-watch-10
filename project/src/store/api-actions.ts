@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
-import { APIRoute, RequestStatus } from '../constants';
+import { APIRoute } from '../constants';
 import { dropToken, saveToken } from '../services/token';
 import fetchCommentsArgs from '../types/args/fetch-comments-args';
 import fetchFilmArgs from '../types/args/fetch-film-args';
@@ -11,125 +11,111 @@ import SetIsFavoriteArgs from '../types/args/set-is-favorite-args';
 import Comment from '../types/comment';
 import Film from '../types/film';
 import { AppDispatch, State } from '../types/state';
-import UserData from '../types/user-data';
-import { loadComments, loadFavoriteFilms, loadFilm, loadFilms, loadPromo, loadSimilarFilms, setAuthorized, setIsDataLoaded, setIsDataNotFound, setIsFavorite, setNotAuthorized, setUserData } from './action';
+import { UserData } from '../types/user-data';
+import { clearFavoriteFilms } from './app-data/app-data';
 
 
-export const fetchFilmsAction = createAsyncThunk<void, undefined, { dispatch: AppDispatch, state: State, extra: AxiosInstance}>(
-  'loadFilms',
+export const fetchFilmsAction = createAsyncThunk<Film[], undefined, { dispatch: AppDispatch, state: State, extra: AxiosInstance}>(
+  'data/fetchFilms',
   async (_args, {dispatch, extra: api}) => {
     const {data} = await api.get<Film[]>(APIRoute.Films);
-    dispatch(loadFilms(data));
-    dispatch(setIsDataLoaded());
+
+    return data;
   }
 );
 
-export const fetchFilmAction = createAsyncThunk<void, fetchFilmArgs, { dispatch: AppDispatch, state: State, extra: AxiosInstance}>(
-  'loadFilm',
+export const fetchFilmAction = createAsyncThunk<Film, fetchFilmArgs, { dispatch: AppDispatch, state: State, extra: AxiosInstance}>(
+  'data/fetchFilm',
   async (_args, {dispatch, extra: api}) => {
-    try {
-      const {data} = await api.get<Film>(`${APIRoute.Films}/${_args.id}`);
-      dispatch(loadFilm(data));
-    } catch (error) {
-      dispatch(setIsDataNotFound(true));
-    }
+    const {data} = await api.get<Film>(`${APIRoute.Films}/${_args.id}`);
+
+    return data;
   }
 );
 
-export const fetchFavoriteFilmsAction = createAsyncThunk<void, undefined, { dispatch: AppDispatch, state: State, extra: AxiosInstance}>(
-  'loadFavoriteFilms',
+export const fetchFavoriteFilmsAction = createAsyncThunk<Film[], undefined, { dispatch: AppDispatch, state: State, extra: AxiosInstance}>(
+  'data/fetchFavoriteFilms',
   async (_args, {dispatch, extra: api}) => {
     const {data} = await api.get<Film[]>(`${APIRoute.Favorite}`);
-    dispatch(loadFavoriteFilms(data));
+
+    return data;
   }
 );
 
-export const fetchSimilarFilmsAction = createAsyncThunk<void, fetchSimilarFilmsArgs, { dispatch: AppDispatch, state: State, extra: AxiosInstance}>(
-  'loadSimilarFilms',
+export const fetchSimilarFilmsAction = createAsyncThunk<Film[], fetchSimilarFilmsArgs, { dispatch: AppDispatch, state: State, extra: AxiosInstance}>(
+  'data/fetchSimilarFilms',
   async (_args, {dispatch, extra: api}) => {
     const {data} = await api.get<Film[]>(`/films/${_args.id}${APIRoute.Similar}`);
-    // eslint-disable-next-line no-console
-    console.log(data);
-    dispatch(loadSimilarFilms(data));
+
+    return data;
   }
 );
 
 
-export const setIsFavoriteAction = createAsyncThunk<void, SetIsFavoriteArgs, { dispatch: AppDispatch, state: State, extra: AxiosInstance}>(
-  'setIsFavorite',
+export const setIsFavoriteAction = createAsyncThunk<Film, SetIsFavoriteArgs, { dispatch: AppDispatch, state: State, extra: AxiosInstance}>(
+  'data/setIsFavorite',
   async (_args, {dispatch, extra: api}) => {
     const {data} = await api.post<Film>(`${APIRoute.Favorite}/${_args.filmId}/${_args.status}`);
-    dispatch(setIsFavorite(data));
+
+    return data;
   }
 );
 
 
-export const fetchPromoAction = createAsyncThunk<void, undefined, { dispatch: AppDispatch, state: State, extra: AxiosInstance}>(
-  'loadPromo',
+export const fetchPromoAction = createAsyncThunk<Film, undefined, { dispatch: AppDispatch, state: State, extra: AxiosInstance}>(
+  'data/fetchPromo',
   async (_args, {dispatch, extra: api}) => {
     const {data} = await api.get<Film>(APIRoute.Promo);
-    dispatch(loadPromo(data));
+
+    return data;
   }
 );
 
-export const fetchCommentsAction = createAsyncThunk<void, fetchCommentsArgs, { dispatch: AppDispatch, state: State, extra: AxiosInstance}>(
-  'loadComments',
+export const fetchCommentsAction = createAsyncThunk<Comment[], fetchCommentsArgs, { dispatch: AppDispatch, state: State, extra: AxiosInstance}>(
+  'data/fetchComments',
   async (_args, {dispatch, extra: api}) => {
-    try {
-      const {data} = await api.get<Comment[]>(`${APIRoute.Comments}/${_args.id}`);
-      dispatch(loadComments(data));
-    } catch (error) {
-      dispatch(setIsDataNotFound(true));
-    }
+    const {data} = await api.get<Comment[]>(`${APIRoute.Comments}/${_args.id}`);
+
+    return data;
   }
 );
 
-export const sendNewCommentAction = createAsyncThunk<void, SendNewCommentArgs, { dispatch: AppDispatch, state: State, extra: AxiosInstance}>(
-  'loadComments',
+export const sendNewCommentAction = createAsyncThunk<Comment[], SendNewCommentArgs, { dispatch: AppDispatch, state: State, extra: AxiosInstance}>(
+  'data/fetchComments',
   async (_args, {dispatch, extra: api}) => {
-    try {
-      const {data} = await api.post<Comment[]>(`${APIRoute.Comments}/${_args.id}`, _args.newComment);
-      dispatch(loadComments(data));
-      _args.handleRequestStatusChanged(RequestStatus.SUCCESS);
-    } catch (error) {
-      _args.handleRequestStatusChanged(RequestStatus.ERROR);
-    }
+    const {data} = await api.post<Comment[]>(`${APIRoute.Comments}/${_args.id}`, _args.newComment);
+
+    return data;
   }
 );
 
-export const checkAuthorizationAction = createAsyncThunk<void, undefined, { dispatch: AppDispatch, state: State, extra: AxiosInstance}>(
-  'checkAuthorization',
+export const checkAuthorizationAction = createAsyncThunk<UserData, undefined, { dispatch: AppDispatch, state: State, extra: AxiosInstance}>(
+  'user/checkAuthorization',
   async (_args, {dispatch, extra: api}) => {
-    try {
-      const userData = (await api.get(APIRoute.Login)).data;
-      dispatch(setAuthorized());
-      dispatch(setUserData(userData));
-    } catch {
-      dispatch(setNotAuthorized());
-      dispatch(setUserData(null));
-    }
+    const userData = (await api.get(APIRoute.Login)).data;
+
+    return userData;
   }
 );
 
-
-export const loginAction = createAsyncThunk<void, loginArgs, { dispatch: AppDispatch, state: State, extra: AxiosInstance}>(
-  'login',
+export const loginAction = createAsyncThunk<UserData, loginArgs, { dispatch: AppDispatch, state: State, extra: AxiosInstance}>(
+  'user/login',
   async (_args, {dispatch, extra: api}) => {
     const userData = (await api.post<UserData>(APIRoute.Login, {email: _args.email, password: _args.password})).data;
     if(userData){
       saveToken(userData.token);
     }
-    dispatch(setAuthorized());
-    dispatch(setUserData(userData));
+
+    return userData;
   }
 );
 
 export const logoutAction = createAsyncThunk<void, undefined, { dispatch: AppDispatch, state: State, extra: AxiosInstance}>(
-  'logout',
+  'user/logout',
   async (_args, {dispatch, extra: api}) => {
     await api.delete(APIRoute.Logout);
     dropToken();
-    dispatch(setNotAuthorized());
+    dispatch(clearFavoriteFilms());
   }
 );
 

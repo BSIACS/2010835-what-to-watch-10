@@ -4,15 +4,16 @@ import Footer from '../../components/footer/footer';
 import FilmList from '../../components/films-list/film-list';
 import UserBlock from '../../components/user-block/user-block';
 import Logo from '../../components/logo/logo';
-import { resetFilmsToShowQuantity, resetFilterSelectedGenre } from '../../store/action';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import LoadingScreen from '../../components/loading-screen/loading-screen';
 import AddToMyListButton from '../../components/add-to-my-list-button.tsx/add-to-my-list-button';
 import { AuthorizationStatus } from '../../constants';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import { resetFilmsToShowQuantity, resetFilterSelectedGenre } from '../../store/app-process/app-process';
 
 
 function MainPage({promoFilm, isDataLoaded, films} : MainPageProps) : JSX.Element{
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   const dispatch = useAppDispatch();
 

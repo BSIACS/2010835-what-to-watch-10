@@ -1,12 +1,13 @@
 import { Fragment } from 'react';
 import { useAppSelector } from '../../hooks';
+import { getFavoriteFilms } from '../../store/app-data/selectors';
 import Film from '../../types/film';
 import FilmCard from '../film-card/film-card';
 import ShowMoreButton from '../show-more-button/show-more-button';
 
 
 function FavoriteFilmsList() : JSX.Element{
-  const films = useAppSelector((state) => state.favoriteFilms);
+  const films = useAppSelector(getFavoriteFilms);
 
 
   return (

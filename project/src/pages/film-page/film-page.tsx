@@ -10,18 +10,20 @@ import UserBlock from '../../components/user-block/user-block';
 import { AppLink, AuthorizationStatus } from '../../constants';
 import { useAppSelector } from '../../hooks';
 import { store } from '../../store';
-import { resetFilm, setIsDataNotFound } from '../../store/action';
 import { fetchCommentsAction, fetchFilmAction } from '../../store/api-actions';
+import { resetFilm, setIsDataNotFound } from '../../store/app-data/app-data';
+import { getComments, getFilm, getIsDataNotFound } from '../../store/app-data/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import NotFoundPage from '../not-found-page/not-found-page';
 
 function FilmPage() : JSX.Element{
   const params = useParams();
   const id = Number(params.id);
 
-  const film = useAppSelector((state) => state.film);
-  const filmComments = useAppSelector((state) => state.comments);
-  const isDataNotFound = useAppSelector((state) => state.isDataNotFound);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const film = useAppSelector(getFilm);
+  const filmComments = useAppSelector(getComments);
+  const isDataNotFound = useAppSelector(getIsDataNotFound);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   useEffect(() => {
     store.dispatch(fetchFilmAction({id: id}));

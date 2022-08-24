@@ -10,11 +10,13 @@ import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import PlayerPage from '../../pages/player-page/player-page';
 import SignInPage from '../../pages/sign-in-page/sign-in-page';
 import { fetchFavoriteFilmsAction } from '../../store/api-actions';
+import { getFilms, getIsDataLoaded, getPromo } from '../../store/app-data/selectors';
 import PrivateRoute from '../private-route/private-route';
 
 function App(): JSX.Element {
-  const {films, isDataLoaded, promo} = useAppSelector((state) => state);
-  //const favoriteFilms = useAppSelector((state) => state.favoriteFilms);
+  const films = useAppSelector(getFilms);
+  const isDataLoaded = useAppSelector(getIsDataLoaded);
+  const promo = useAppSelector(getPromo);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
