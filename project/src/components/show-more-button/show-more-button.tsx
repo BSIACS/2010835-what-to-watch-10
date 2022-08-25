@@ -1,12 +1,13 @@
 import { DEFAULT_FILE_LIST_GENRE } from '../../constants';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { showMoreFilms } from '../../store/action';
+import { showMoreFilms } from '../../store/app-process/app-process';
+import { getFilmsToShowQuantity, getSelectedGenre } from '../../store/app-process/selectors';
 import ShowMoreButtonProps from '../../types/props/show-more-button-props';
 
 function ShowMoreButton({films} : ShowMoreButtonProps) : JSX.Element{
   const dispatch = useAppDispatch();
-  const filmsToShowQuantity = useAppSelector((state) => state.filmsToShowQuantity);
-  const selectedGenre = useAppSelector((state) => state.selectedGenre);
+  const filmsToShowQuantity = useAppSelector(getFilmsToShowQuantity);
+  const selectedGenre = useAppSelector(getSelectedGenre);
 
   const showMoreButtonClickHandler = () => dispatch(showMoreFilms());
 

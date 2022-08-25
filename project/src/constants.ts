@@ -47,6 +47,8 @@ export const DEFAULT_FILE_LIST_GENRE = 'AllGenres';
 
 export enum APIRoute {
   Films = '/films',
+  Favorite = '/favorite',
+  Similar = '/similar',
   Promo = '/promo',
   Login = '/login',
   Logout = '/logout',
@@ -60,7 +62,18 @@ export enum RequestStatus {
   READY = 'READY',
 }
 
+export enum AddToFavoriteStatus {
+  ADD = 1,
+  REMOVE = 0,
+}
+
 export const MIN_REVIEW_TEXT_LENGTH = 50;
 export const MAX_REVIEW_TEXT_LENGTH = 400;
 
+
+export enum NameSpace {
+  AppData = 'APP_DATA',
+  AppProcess = 'APP_PROCESS',
+  UserProcess = 'USER_PROCESS',
+}
 

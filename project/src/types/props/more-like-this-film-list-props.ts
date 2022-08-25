@@ -1,7 +1,6 @@
-import Film from '../film';
 
 type MoreLikeThisFilmListProps = {
-  similarFilms : Film[]
+  filmId : number,
 }
 
 export default MoreLikeThisFilmListProps;

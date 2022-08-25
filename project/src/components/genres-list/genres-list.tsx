@@ -1,11 +1,12 @@
 import React, { Fragment } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { changeGenre, resetFilmsToShowQuantity } from '../../store/action';
+import { changeGenre, resetFilmsToShowQuantity } from '../../store/app-process/app-process';
+import { getSelectedGenre } from '../../store/app-process/selectors';
 import GenresListProps from '../../types/props/genres-list-props';
 import { getSetOfAvailableGenres } from '../../utils';
 
 function GenresList({films} : GenresListProps) : JSX.Element{
-  const selectedGenre = useAppSelector((state) => state.selectedGenre);
+  const selectedGenre = useAppSelector(getSelectedGenre);
   const dispatch = useAppDispatch();
 
   const CATALOG_GENRES_ITEM_ACTIVE = 'catalog__genres-item--active';

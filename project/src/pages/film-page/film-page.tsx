@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import AddToMyListButton from '../../components/add-to-my-list-button.tsx/add-to-my-list-button';
 import Footer from '../../components/footer/footer';
 import LoadingScreen from '../../components/loading-screen/loading-screen';
 import Logo from '../../components/logo/logo';
@@ -8,23 +9,21 @@ import Tabs from '../../components/tabs/tabs';
 import UserBlock from '../../components/user-block/user-block';
 import { AppLink, AuthorizationStatus } from '../../constants';
 import { useAppSelector } from '../../hooks';
-import { moreLikeThisFilms } from '../../mock/films';
 import { store } from '../../store';
-import { resetFilm, setIsDataNotFound } from '../../store/action';
 import { fetchCommentsAction, fetchFilmAction } from '../../store/api-actions';
+import { resetFilm, setIsDataNotFound } from '../../store/app-data/app-data';
+import { getComments, getFilm, getIsDataNotFound } from '../../store/app-data/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import NotFoundPage from '../not-found-page/not-found-page';
 
 function FilmPage() : JSX.Element{
   const params = useParams();
   const id = Number(params.id);
 
-  const favoriteFilmsCount = 7;
-
-  const film = useAppSelector((state) => state.film);
-  const filmComments = useAppSelector((state) => state.comments);
-  const isDataNotFound = useAppSelector((state) => state.isDataNotFound);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-
+  const film = useAppSelector(getFilm);
+  const filmComments = useAppSelector(getComments);
+  const isDataNotFound = useAppSelector(getIsDataNotFound);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   useEffect(() => {
     store.dispatch(fetchFilmAction({id: id}));
@@ -35,6 +34,7 @@ function FilmPage() : JSX.Element{
       store.dispatch(setIsDataNotFound(false));
     };
   }, [id]);
+
 
   if(isDataNotFound){
     return (
@@ -108,13 +108,8 @@ function FilmPage() : JSX.Element{
                       <span>Play</span>
                     </Link>
                   </button>
-                  <button className="btn btn--list film-card__button" type="button">
-                    <svg viewBox="0 0 19 20" width="19" height="20">
-                      <use xlinkHref="#add"></use>
-                    </svg>
-                    <span>My list</span>
-                    <span className="film-card__count">{favoriteFilmsCount}</span>
-                  </button>
+                  {authorizationStatus === AuthorizationStatus.Auth ? <AddToMyListButton filmId={film.id} isFavorite={film.isFavorite} /> : ''}
+
                   {authorizationStatus === AuthorizationStatus.Auth ? <Link to={AppLink.Review} className="btn film-card__button">Add review</Link> : ''}
                 </div>
               </div>
@@ -137,7 +132,7 @@ function FilmPage() : JSX.Element{
             <h2 className="catalog__title">More like this</h2>
 
             <div className="catalog__films-list">
-              <MoreLikeThisFilmList similarFilms={moreLikeThisFilms}/>
+              <MoreLikeThisFilmList filmId={id}/>
             </div>
           </section>
 

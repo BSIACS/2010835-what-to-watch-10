@@ -1,7 +1,7 @@
-import User from '../user-data';
+import { UserData } from '../user-data';
 
 type UserBlockProps = {
-  user : User;
+  user : UserData;
 }
 
 export default UserBlockProps;

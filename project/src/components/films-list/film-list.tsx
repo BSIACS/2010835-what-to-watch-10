@@ -1,6 +1,8 @@
 import { Fragment } from 'react';
 import { DEFAULT_FILE_LIST_GENRE } from '../../constants';
 import { useAppSelector } from '../../hooks';
+import { getFilms } from '../../store/app-data/selectors';
+import { getFilmsToShowQuantity, getSelectedGenre } from '../../store/app-process/selectors';
 import Film from '../../types/film';
 import FilmListProps from '../../types/props/films-list-props';
 import FilmCard from '../film-card/film-card';
@@ -9,9 +11,9 @@ import ShowMoreButton from '../show-more-button/show-more-button';
 
 
 function FilmList({isFavoriteFilmList} : FilmListProps) : JSX.Element{
-  const selectedGenre = useAppSelector((state) => state.selectedGenre);
-  const filmsToShowQuantity = useAppSelector((state) => state.filmsToShowQuantity);
-  const films = useAppSelector((state) => state.films);
+  const selectedGenre = useAppSelector(getSelectedGenre);
+  const filmsToShowQuantity = useAppSelector(getFilmsToShowQuantity);
+  const films = useAppSelector(getFilms);
   let filteredFilmList = films;
 
   if(!isFavoriteFilmList && selectedGenre !== DEFAULT_FILE_LIST_GENRE){

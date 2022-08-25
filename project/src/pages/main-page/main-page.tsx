@@ -4,13 +4,16 @@ import Footer from '../../components/footer/footer';
 import FilmList from '../../components/films-list/film-list';
 import UserBlock from '../../components/user-block/user-block';
 import Logo from '../../components/logo/logo';
-import { resetFilmsToShowQuantity, resetFilterSelectedGenre } from '../../store/action';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import LoadingScreen from '../../components/loading-screen/loading-screen';
+import AddToMyListButton from '../../components/add-to-my-list-button.tsx/add-to-my-list-button';
+import { AuthorizationStatus } from '../../constants';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import { resetFilmsToShowQuantity, resetFilterSelectedGenre } from '../../store/app-process/app-process';
 
 
-function MainPage({promoFilm, isDataLoaded, films, favoriteFilms} : MainPageProps) : JSX.Element{
-  const favoriteFilmsCount = favoriteFilms.length;
+function MainPage({promoFilm, isDataLoaded, films} : MainPageProps) : JSX.Element{
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   const dispatch = useAppDispatch();
 
@@ -54,13 +57,7 @@ function MainPage({promoFilm, isDataLoaded, films, favoriteFilms} : MainPageProp
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list film-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                  <span className="film-card__count">{favoriteFilmsCount}</span>
-                </button>
+                {authorizationStatus === AuthorizationStatus.Auth ? <AddToMyListButton filmId={promoFilm.id} isFavorite={promoFilm.isFavorite} /> : ''}
               </div>
             </div>
           </div>

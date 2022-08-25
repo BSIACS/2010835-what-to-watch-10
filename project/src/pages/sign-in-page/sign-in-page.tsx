@@ -4,6 +4,7 @@ import Logo from '../../components/logo/logo';
 import { AppRoute, AuthorizationStatus } from '../../constants';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { loginAction } from '../../store/api-actions';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 function SignInPage() : JSX.Element{
   const dispatch = useAppDispatch();
@@ -11,7 +12,7 @@ function SignInPage() : JSX.Element{
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   const formSubmitHandler = (evt : FormEvent<HTMLFormElement>) => {
     evt.preventDefault();

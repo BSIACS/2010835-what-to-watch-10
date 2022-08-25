@@ -1,4 +1,4 @@
-type UserData = {
+export type UserData = {
   avatarUrl: string
   email: string
   id: number
@@ -6,4 +6,3 @@ type UserData = {
   token: string
 } | null
 
-export default UserData;
