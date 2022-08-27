@@ -4,40 +4,15 @@ import { Link, useParams } from 'react-router-dom';
 import { AppLink } from '../../constants';
 import { getFilms } from '../../store/app-data/selectors';
 import PlayerProps from '../../types/props/player-props';
+import { tarsformTimeFormat } from '../../utils';
 
 let intervalId : (NodeJS.Timeout | null) = null;
-
-const tarsformTimeFormat = (value : number) : string => {
-  let hours = 0;
-  let minutes = 0;
-  let seconds = 0;
-  let result = '';
-
-  if(value > 3599){
-    hours = Math.floor(value / 3600);
-    minutes = Math.floor((value - hours * 3600) / 60);
-    value = value - (60 * minutes) - (3600 * hours);
-    seconds = value;
-
-    result = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-  }
-  else{
-    minutes = Math.floor(value / 60);
-    value = value - (60 * minutes);
-    seconds = value;
-
-    result = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-  }
-
-  return result;
-};
 
 function Player({isAutoplay} : PlayerProps) : JSX.Element{
   const videoElement = useRef<HTMLVideoElement>(null);
 
   const [isPlayed, setIsPlayed] = useState(isAutoplay);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isFull, setIsFull] = useState(false);
   const [duration, setDuration] = useState<number>(0);
 
   const [targetTimeValue, setTargetTimeValue] = useState<number>(0);
@@ -110,12 +85,8 @@ function Player({isAutoplay} : PlayerProps) : JSX.Element{
   };
 
   const fullScreenButtonClickHandler = (evt : React.MouseEvent<HTMLButtonElement>) => {
-    setIsFull(!isFull);
-  };
-
-  const playerClickHandler = () => {
-    if(isFull){
-      setIsFull(false);
+    if(videoElement.current){
+      videoElement.current.requestFullscreen();
     }
   };
 
@@ -201,13 +172,13 @@ function Player({isAutoplay} : PlayerProps) : JSX.Element{
         <img className='spinner' src="https://i.gifer.com/ZKZx.gif" alt="spinner" />
       </div>
 
-      <div className="player" onClick={playerClickHandler}>
+      <div className="player">
 
-        <video src={filmToPlay?.videoLink} ref={videoElement} muted className="player__video" poster={filmToPlay?.previewImage} onLoadedData={loadDataHandler} onEnded={endedHandler}></video>
+        <video src={filmToPlay?.videoLink} ref={videoElement} className="player__video" poster={filmToPlay?.previewImage} onLoadedData={loadDataHandler} onEnded={endedHandler}></video>
 
-        <Link className={`player__exit ${isFull ? 'hidden' : ''}`} to={`/${AppLink.Films}/${filmToPlay?.id}`}>Exit</Link>
+        <Link className="player__exit" to={`/${AppLink.Films}/${filmToPlay?.id}`}>Exit</Link>
 
-        <div className={`player__controls ${isFull ? 'hidden' : ''}`}>
+        <div className="player__controls">
           <div className="player__controls-row">
             <div className="player__time">
               <progress className="player__progress" value={timeProgress} max="100" onClick={progressBarClickHandler}></progress>
@@ -217,7 +188,7 @@ function Player({isAutoplay} : PlayerProps) : JSX.Element{
           </div>
 
           <div className="player__controls-row">
-            <button type="button" className={`player__play ${isFull ? 'hidden' : ''}`} onClick={playClickHandler}>
+            <button type="button" className="player__play" onClick={playClickHandler}>
               <svg viewBox="0 0 19 19" width="19" height="19">
                 <use xlinkHref={isPlayed ? '#pause' : '#play-s'}></use>
               </svg>
