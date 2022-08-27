@@ -31,7 +31,7 @@ function App(): JSX.Element {
         <Route path={AppRoute.SignIn} element={<SignInPage />} />
         <Route path={AppRoute.Film} element={<FilmPage/>}/>
         <Route path={AppRoute.AddReview} element={<PrivateRoute><AddReviewPage films={films}/></PrivateRoute>}/>
-        <Route path={AppRoute.Player} element={<PlayerPage films={films}/>} />
+        <Route path={AppRoute.Player} element={<PlayerPage isAutoplay/>} />
         <Route path={AppRoute.Mylist} element={<PrivateRoute><MyListPage /></PrivateRoute>}/>
         <Route path='*' element={<NotFoundPage/>} />
       </Routes>
@@ -40,3 +40,4 @@ function App(): JSX.Element {
 }
 
 export default App;
+

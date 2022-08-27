@@ -5,6 +5,7 @@ import Footer from '../../components/footer/footer';
 import LoadingScreen from '../../components/loading-screen/loading-screen';
 import Logo from '../../components/logo/logo';
 import MoreLikeThisFilmList from '../../components/more-like-this-film-list/more-like-this-film-list';
+import PlayButton from '../../components/play-button/play-button';
 import Tabs from '../../components/tabs/tabs';
 import UserBlock from '../../components/user-block/user-block';
 import { AppLink, AuthorizationStatus } from '../../constants';
@@ -100,14 +101,8 @@ function FilmPage() : JSX.Element{
                 </p>
 
                 <div className="film-card__buttons">
-                  <button className="btn btn--play film-card__button" type="button">
-                    <Link className='play-link' to={`/${AppLink.Player}/${film?.id}`}>
-                      <svg viewBox="0 0 19 19" width="19" height="19">
-                        <use xlinkHref="#play-s"></use>
-                      </svg>
-                      <span>Play</span>
-                    </Link>
-                  </button>
+                  <PlayButton filmId={film.id}/>
+
                   {authorizationStatus === AuthorizationStatus.Auth ? <AddToMyListButton filmId={film.id} isFavorite={film.isFavorite} /> : ''}
 
                   {authorizationStatus === AuthorizationStatus.Auth ? <Link to={AppLink.Review} className="btn film-card__button">Add review</Link> : ''}
