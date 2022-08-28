@@ -1,10 +1,144 @@
-import React from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Link, useParams } from 'react-router-dom';
+import { AppLink } from '../../constants';
+import { getFilms } from '../../store/app-data/selectors';
 import PlayerProps from '../../types/props/player-props';
+import { tarsformTimeFormat } from '../../utils';
 
-function Player({films} : PlayerProps) : JSX.Element{
+let intervalId : (NodeJS.Timeout | null) = null;
+
+function Player({isAutoplay} : PlayerProps) : JSX.Element{
+  const videoElement = useRef<HTMLVideoElement>(null);
+
+  const [isPlayed, setIsPlayed] = useState(isAutoplay);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [duration, setDuration] = useState<number>(0);
+
+  const [targetTimeValue, setTargetTimeValue] = useState<number>(0);
+  const [timesLeft, setTimesLeft] = useState<string>('');
+
+  const [timeProgress, setTimeProgress] = useState<number>(0);
+
+  const params = useParams();
+  const filmToPlay = useSelector(getFilms).find((film) => film.id === Number(params.id));
+
+  const play = useCallback(() => {
+    videoElement.current?.play();
+    intervalId = setInterval(() => {
+      if(videoElement.current?.currentTime){
+        setTimeProgress(Math.round((videoElement.current?.currentTime / duration * 100)));
+
+        setTimesLeft(tarsformTimeFormat(duration - Math.round(videoElement.current?.currentTime)));
+      }
+    }, 250);
+  }, [duration]);
+
+  const pause = useCallback(() => {
+    if(intervalId){
+      clearInterval(intervalId);
+      videoElement.current?.pause();
+    }
+  }, []);
+
+  useEffect(() => {
+    if(isAutoplay){
+      loadVideo();
+    }
+
+    return () => {
+      if(intervalId){
+        clearInterval(intervalId);
+      }
+    };
+  }, [isAutoplay]);
+
+  useEffect(() => {
+    if(isPlayed && isLoaded){
+      play();
+    }
+    else if(!isPlayed && isLoaded){
+      pause();
+    }
+  }, [isPlayed, isLoaded, play, pause]);
+
+  useEffect(() => {
+    if(videoElement.current){
+      videoElement.current.currentTime = targetTimeValue;
+    }
+
+  }, [targetTimeValue]);
+
+  const loadVideo = () => {
+    videoElement.current?.load();
+  };
+
+  const progressBarClickHandler = (evt : React.MouseEvent<HTMLProgressElement>) => {
+    const targetValueInPercent = evt.nativeEvent.offsetX * (evt.target as HTMLProgressElement).max / (evt.target as HTMLProgressElement).offsetWidth;
+
+    setTargetTimeValue(duration / 100 * targetValueInPercent);
+    setTimeProgress(targetValueInPercent);
+  };
+
+  const playClickHandler = (evt : React.MouseEvent<HTMLButtonElement>) => {
+    setIsPlayed(!isPlayed);
+  };
+
+  const fullScreenButtonClickHandler = (evt : React.MouseEvent<HTMLButtonElement>) => {
+    if(videoElement.current){
+      videoElement.current.requestFullscreen();
+    }
+  };
+
+  const loadDataHandler = (evt : React.SyntheticEvent<HTMLVideoElement, Event>) => {
+    setIsLoaded(true);
+    if(videoElement.current?.duration !== undefined){
+      setDuration(Math.round(videoElement.current?.duration));
+    }
+  };
+
+  const endedHandler = () => {
+    setIsPlayed(false);
+    if(filmToPlay && videoElement.current){
+      videoElement.current.setAttribute('src', filmToPlay?.videoLink);
+    }
+    setTimeProgress(100);
+  };
 
   return (
     <React.Fragment>
+      <style>{`
+        html body {padding: 0; margin 0:}
+
+        .hidden{
+          display: none;
+        }
+
+        .player__progress:hover{
+          cursor: pointer;
+        }
+
+        .spinner__container{
+          position: absolute;
+          width: 100%;
+          text-align: center;
+        }
+
+        .spinner{
+          border-style: none;
+          display: inline-block;
+          position: relative;
+          width: 40px;
+          margin-top: 25%;
+          z-index: 20;
+        }
+
+        .hidden{
+          display: none;
+        }
+      `}
+      </style>
+
       <div className="visually-hidden">
         <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
           <symbol id="add" viewBox="0 0 19 20">
@@ -34,30 +168,35 @@ function Player({films} : PlayerProps) : JSX.Element{
         </svg>
       </div>
 
-      <div className="player">
-        <video src="#" className="player__video" poster="img/player-poster.jpg"></video>
+      <div className={`spinner__container ${isLoaded ? 'hidden' : ''}`}>
+        <img className='spinner' src="https://i.gifer.com/ZKZx.gif" alt="spinner" />
+      </div>
 
-        <button type="button" className="player__exit">Exit</button>
+      <div className="player">
+
+        <video src={filmToPlay?.videoLink} ref={videoElement} className="player__video" poster={filmToPlay?.previewImage} onLoadedData={loadDataHandler} onEnded={endedHandler}></video>
+
+        <Link className="player__exit" to={`/${AppLink.Films}/${filmToPlay?.id}`}>Exit</Link>
 
         <div className="player__controls">
           <div className="player__controls-row">
             <div className="player__time">
-              <progress className="player__progress" value="30" max="100"></progress>
-              <div className="player__toggler" style={{left: '30%'}}>Toggler</div>
+              <progress className="player__progress" value={timeProgress} max="100" onClick={progressBarClickHandler}></progress>
+              <div className="player__toggler" style={{left: `${timeProgress}%`}}>Toggler</div>
             </div>
-            <div className="player__time-value">1:30:29</div>
+            <div className="player__time-value">{timesLeft}</div>
           </div>
 
           <div className="player__controls-row">
-            <button type="button" className="player__play">
+            <button type="button" className="player__play" onClick={playClickHandler}>
               <svg viewBox="0 0 19 19" width="19" height="19">
-                <use xlinkHref="#play-s"></use>
+                <use xlinkHref={isPlayed ? '#pause' : '#play-s'}></use>
               </svg>
               <span>Play</span>
             </button>
-            <div className="player__name">Transpotting</div>
+            <div className="player__name">{filmToPlay?.name}</div>
 
-            <button type="button" className="player__full-screen">
+            <button type="button" className="player__full-screen" onClick={fullScreenButtonClickHandler}>
               <svg viewBox="0 0 27 27" width="27" height="27">
                 <use xlinkHref="#full-screen"></use>
               </svg>

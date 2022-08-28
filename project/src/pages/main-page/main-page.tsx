@@ -10,6 +10,7 @@ import AddToMyListButton from '../../components/add-to-my-list-button.tsx/add-to
 import { AuthorizationStatus } from '../../constants';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { resetFilmsToShowQuantity, resetFilterSelectedGenre } from '../../store/app-process/app-process';
+import PlayButton from '../../components/play-button/play-button';
 
 
 function MainPage({promoFilm, isDataLoaded, films} : MainPageProps) : JSX.Element{
@@ -51,12 +52,8 @@ function MainPage({promoFilm, isDataLoaded, films} : MainPageProps) : JSX.Elemen
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
-                  <svg viewBox="0 0 19 19" width="19" height="19">
-                    <use xlinkHref="#play-s"></use>
-                  </svg>
-                  <span>Play</span>
-                </button>
+                <PlayButton filmId={promoFilm.id}/>
+
                 {authorizationStatus === AuthorizationStatus.Auth ? <AddToMyListButton filmId={promoFilm.id} isFavorite={promoFilm.isFavorite} /> : ''}
               </div>
             </div>

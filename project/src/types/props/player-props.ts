@@ -1,7 +1,6 @@
-import Film from '../film';
 
 type PlayerProps = {
-  films : Film[],
+  isAutoplay : boolean,
 }
 
 export default PlayerProps;
