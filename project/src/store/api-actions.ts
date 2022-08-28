@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
-import { APIRoute } from '../constants';
+import { APIRoute, RequestStatus } from '../constants';
 import { dropToken, saveToken } from '../services/token';
 import fetchCommentsArgs from '../types/args/fetch-comments-args';
 import fetchFilmArgs from '../types/args/fetch-film-args';
@@ -84,6 +84,7 @@ export const sendNewCommentAction = createAsyncThunk<Comment[], SendNewCommentAr
   'data/fetchComments',
   async (_args, {dispatch, extra: api}) => {
     const {data} = await api.post<Comment[]>(`${APIRoute.Comments}/${_args.id}`, _args.newComment);
+    _args.handleRequestStatusChanged(RequestStatus.SUCCESS);
 
     return data;
   }
