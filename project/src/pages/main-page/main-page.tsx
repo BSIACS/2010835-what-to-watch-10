@@ -9,7 +9,7 @@ import LoadingScreen from '../../components/loading-screen/loading-screen';
 import AddToMyListButton from '../../components/add-to-my-list-button.tsx/add-to-my-list-button';
 import { AuthorizationStatus } from '../../constants';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
-import { resetFilmsToShowQuantity, resetFilterSelectedGenre } from '../../store/app-process/app-process';
+import { resetFilmsToShowQuantity, resetSelectedGenre } from '../../store/app-process/app-process';
 import PlayButton from '../../components/play-button/play-button';
 
 
@@ -20,7 +20,7 @@ function MainPage({promoFilm, isDataLoaded, films} : MainPageProps) : JSX.Elemen
 
   useEffect(() => {
     dispatch(resetFilmsToShowQuantity());
-    dispatch(resetFilterSelectedGenre());
+    dispatch(resetSelectedGenre());
   }, [dispatch]);
 
   return (

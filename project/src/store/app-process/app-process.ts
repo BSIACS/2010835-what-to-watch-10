@@ -13,10 +13,10 @@ export const appProcess = createSlice({
   initialState,
   reducers : {
     changeGenre: (state, action) => {state.selectedGenre = action.payload;},
-    resetFilterSelectedGenre: (state) => {state.selectedGenre = DEFAULT_FILE_LIST_GENRE;},
+    resetSelectedGenre: (state) => {state.selectedGenre = DEFAULT_FILE_LIST_GENRE;},
     showMoreFilms: (state) => {state.filmsToShowQuantity = state.filmsToShowQuantity + FILM_TO_SHOW_QUANTITY_BY_DEFAULT;},
     resetFilmsToShowQuantity: (state) => {state.filmsToShowQuantity = FILM_TO_SHOW_QUANTITY_BY_DEFAULT;},
   },
 });
 
-export const { changeGenre, resetFilterSelectedGenre, showMoreFilms, resetFilmsToShowQuantity } = appProcess.actions;
+export const { changeGenre, resetSelectedGenre, showMoreFilms, resetFilmsToShowQuantity } = appProcess.actions;
