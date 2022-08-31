@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { NameSpace } from '../../constants';
 import Film from '../../types/film';
 import { AppData } from '../../types/state';
+import { clearFavoriteFilms } from '../actions';
 import { fetchCommentsAction, fetchFavoriteFilmsAction, fetchFilmAction, fetchFilmsAction, fetchPromoAction, fetchSimilarFilmsAction, setIsFavoriteAction } from '../api-actions';
 
 const initialState : AppData = {
@@ -20,7 +21,6 @@ export const appData = createSlice({
   initialState,
   reducers : {
     setIsDataNotFound: (state, action) => { state.isDataNotFound = action.payload; },
-    clearFavoriteFilms: (state) => { state.favoriteFilms = []; },
     clearSimilarFilms: (state) => { state.similarFilms = []; },
     resetFilm: (state) => {state.film = null;},
   },
@@ -74,9 +74,12 @@ export const appData = createSlice({
       })
       .addCase(fetchCommentsAction.rejected, (state) => {
         state.comments = [];
+      })
+      .addCase(clearFavoriteFilms, (state) => {
+        state.favoriteFilms = [];
       });
   }
 });
 
-export const {setIsDataNotFound, clearFavoriteFilms, clearSimilarFilms, resetFilm} = appData.actions;
+export const {setIsDataNotFound, clearSimilarFilms, resetFilm} = appData.actions;
 

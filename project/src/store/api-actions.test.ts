@@ -8,7 +8,7 @@ import { APIRoute } from '../constants';
 import { checkAuthorizationAction, fetchCommentsAction, fetchFavoriteFilmsAction, fetchFilmAction, fetchFilmsAction, fetchPromoAction, fetchSimilarFilmsAction, loginAction, logoutAction, setIsFavoriteAction } from './api-actions';
 import { makeFakeFilm, makeFakeFilmsArray, makeFakeUserData } from '../utils/mocks';
 import { UserData } from '../types/user-data';
-import { clearFavoriteFilms } from './app-data/app-data';
+import { clearFavoriteFilms } from './actions';
 
 describe('Async actions', () => {
   const axiosAPI = createAPI();

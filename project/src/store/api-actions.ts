@@ -12,7 +12,7 @@ import Comment from '../types/comment';
 import Film from '../types/film';
 import { AppDispatch, State } from '../types/state';
 import { UserData } from '../types/user-data';
-import { clearFavoriteFilms } from './app-data/app-data';
+import { clearFavoriteFilms } from './actions';
 
 
 export const fetchFilmsAction = createAsyncThunk<Film[], undefined, { dispatch: AppDispatch, state: State, extra: AxiosInstance}>(

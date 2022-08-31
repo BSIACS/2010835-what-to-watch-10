@@ -1,7 +1,8 @@
 import Film from '../../types/film';
 import { makeFakeFilm, makeFakeFilmsArray } from '../../utils/mocks';
+import { clearFavoriteFilms } from '../actions';
 import { fetchFilmsAction } from '../api-actions';
-import { appData, clearFavoriteFilms, clearSimilarFilms, resetFilm, setIsDataNotFound } from './app-data';
+import { appData, clearSimilarFilms, resetFilm, setIsDataNotFound } from './app-data';
 
 const initialStateMock = {
   films: [],
