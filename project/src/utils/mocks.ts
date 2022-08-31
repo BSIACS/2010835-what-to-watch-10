@@ -1,4 +1,3 @@
-import Comment from '../types/comment';
 import Film from '../types/film';
 import { UserData } from '../types/user-data';
 
