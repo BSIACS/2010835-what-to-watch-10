@@ -9,12 +9,12 @@ function AddToMyListButton({filmId, isFavorite} : AddToMyListButtonProps) : JSX.
 
   const favoriteFilms = useAppSelector(getFavoriteFilms);
 
-  const addToMyListHandler = () => {
+  const handleAddToMyList = () => {
     store.dispatch(setIsFavoriteAction({filmId: filmId, status: isFavorite ? AddToFavoriteStatus.REMOVE : AddToFavoriteStatus.ADD}));
   };
 
   return (
-    <button className="btn btn--list film-card__button" type="button" onClick={addToMyListHandler}>
+    <button className="btn btn--list film-card__button" type="button" onClick={handleAddToMyList}>
       <svg viewBox="0 0 19 20" width="19" height="20">
         {isFavorite ? <use xlinkHref="#in-list"></use> : <use xlinkHref="#add"></use>}
       </svg>

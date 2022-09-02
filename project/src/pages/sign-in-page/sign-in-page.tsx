@@ -14,7 +14,7 @@ function SignInPage() : JSX.Element{
 
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
-  const formSubmitHandler = (evt : FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = (evt : FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
     if (emailRef.current !== null && passwordRef.current !== null) {
@@ -66,7 +66,7 @@ function SignInPage() : JSX.Element{
         </header>
 
         <div className="sign-in user-page__content">
-          <form action="#" className="sign-in__form" onSubmit={formSubmitHandler}>
+          <form action="#" className="sign-in__form" onSubmit={handleFormSubmit}>
             <div className="sign-in__fields">
               <div className="sign-in__field">
                 <input ref={emailRef} className="sign-in__input" type="email" placeholder="Email address" name="user-email" id="user-email" />

@@ -1,4 +1,4 @@
-import { DEFAULT_FILE_LIST_GENRE, FILM_TO_SHOW_QUANTITY_BY_DEFAULT } from '../../constants';
+import { ComponentsDisplaySettings, DEFAULT_FILE_LIST_GENRE } from '../../constants';
 import { AppProcess } from '../../types/state';
 import { appProcess, changeGenre, resetFilmsToShowQuantity, resetSelectedGenre, showMoreFilms } from './app-process';
 
@@ -25,13 +25,13 @@ describe('Reducer: appProcess', () => {
       .toEqual(initialStateMock);
   });
 
-  it('should increase the value by the number specified in the "FILM_TO_SHOW_QUANTITY_BY_DEFAULT" constant', () => {
+  it('should increase the value by the number specified in the "ComponentsDisplaySettings.FilmToShowQuantityByDefault" constant', () => {
     expect(appProcess.reducer(initialStateMock, showMoreFilms()))
-      .toEqual({ ...initialStateMock, filmsToShowQuantity: initialStateMock.filmsToShowQuantity + FILM_TO_SHOW_QUANTITY_BY_DEFAULT});
+      .toEqual({ ...initialStateMock, filmsToShowQuantity: initialStateMock.filmsToShowQuantity + ComponentsDisplaySettings.FilmToShowQuantityByDefault});
   });
 
-  it('should assign the number specified in the "FILM_TO_SHOW_QUANTITY_BY_DEFAULT" constant', () => {
+  it('should assign the number specified in the "ComponentsDisplaySettings.FilmToShowQuantityByDefault" constant', () => {
     expect(appProcess.reducer(initialStateMock, resetFilmsToShowQuantity()))
-      .toEqual({ ...initialStateMock, filmsToShowQuantity: FILM_TO_SHOW_QUANTITY_BY_DEFAULT});
+      .toEqual({ ...initialStateMock, filmsToShowQuantity: ComponentsDisplaySettings.FilmToShowQuantityByDefault});
   });
 });

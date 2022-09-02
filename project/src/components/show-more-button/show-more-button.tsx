@@ -9,7 +9,7 @@ function ShowMoreButton({films} : ShowMoreButtonProps) : JSX.Element{
   const filmsToShowQuantity = useAppSelector(getFilmsToShowQuantity);
   const selectedGenre = useAppSelector(getSelectedGenre);
 
-  const showMoreButtonClickHandler = () => dispatch(showMoreFilms());
+  const handleShowMoreButtonClick = () => dispatch(showMoreFilms());
 
   let filteredFilms = [];
 
@@ -22,7 +22,7 @@ function ShowMoreButton({films} : ShowMoreButtonProps) : JSX.Element{
 
   return (
     <div className="catalog__more" hidden={filmsToShowQuantity >= filteredFilms.length}>
-      <button className="catalog__button" type="button" onClick={showMoreButtonClickHandler}>Show more</button>
+      <button className="catalog__button" type="button" onClick={handleShowMoreButtonClick}>Show more</button>
     </div>
   );
 }

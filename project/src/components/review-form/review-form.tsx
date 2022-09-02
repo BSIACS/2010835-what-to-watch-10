@@ -2,7 +2,7 @@ import { FormEvent, Fragment, useEffect, useState } from 'react';
 import ReviewFormProps from '../../types/props/review-form-props';
 import { lightenDarkenColor } from '../../utils';
 import ReviewFormData from '../../types/review-form-data';
-import { AppLink, DARKEN_COEFFICIENT, DEFAULT_FILM_RATING, LIGHTEN_COEFFICIENT, MAX_REVIEW_TEXT_LENGTH, MIN_REVIEW_TEXT_LENGTH, RequestStatus} from '../../constants';
+import { AppLink, ColorCoefficient, FilmRatingSettings, RequestStatus, ReviewTextLength} from '../../constants';
 import RatingStars from '../rating-stars/rating-stars';
 import { store } from '../../store';
 import { sendNewCommentAction } from '../../store/api-actions';
@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 
 function ReviewForm({film} : ReviewFormProps) : JSX.Element{
   const filmId = film ? film.id : 0;
-  const [reviewFormData, setReviewFormData] = useState<ReviewFormData>({rating: DEFAULT_FILM_RATING, reviewText: ''});
+  const [reviewFormData, setReviewFormData] = useState<ReviewFormData>({rating: FilmRatingSettings.DefaultFilmRating, reviewText: ''});
   const [isPostButtonDisabled, setIsPostButtonDisabled] = useState(true);
   const [isFormDisabled, setIsFormDisabled] = useState(false);
   const [isErrorMessageDisplayed, setIsErrorMessageDisplayed] = useState(false);
@@ -19,7 +19,7 @@ function ReviewForm({film} : ReviewFormProps) : JSX.Element{
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(reviewFormData.rating > 0 && reviewFormData.reviewText.length >= MIN_REVIEW_TEXT_LENGTH && reviewFormData.reviewText.length <= MAX_REVIEW_TEXT_LENGTH){
+    if(reviewFormData.rating > 0 && reviewFormData.reviewText.length >= ReviewTextLength.MinReviewTextLength && reviewFormData.reviewText.length <= ReviewTextLength.MaxReviewTextLength){
       setIsPostButtonDisabled(false);
     }
     else{
@@ -41,7 +41,7 @@ function ReviewForm({film} : ReviewFormProps) : JSX.Element{
     setRequestStatus(status);
   };
 
-  const fieldChangeHandler = (evt : React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) : void => {
+  const handleFieldChange = (evt : React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) : void => {
     const target = evt.target as HTMLTextAreaElement | HTMLInputElement;
 
     if(target instanceof HTMLTextAreaElement){
@@ -52,7 +52,7 @@ function ReviewForm({film} : ReviewFormProps) : JSX.Element{
     }
   };
 
-  const formSubmitHandler = (evt : FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = (evt : FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     setIsFormDisabled(true);
     store.dispatch(sendNewCommentAction({id: filmId, newComment: {comment: reviewFormData.reviewText, rating: reviewFormData.rating}, handleRequestStatusChanged: handleRequestStatusChanged}));
@@ -71,14 +71,14 @@ function ReviewForm({film} : ReviewFormProps) : JSX.Element{
         `}
       </style>
       <div className="add-review">
-        <form action="#" className="add-review__htmlForm" onSubmit={formSubmitHandler}>
+        <form action="#" className="add-review__htmlForm" onSubmit={handleFormSubmit}>
 
-          <RatingStars fieldChangeHandler={fieldChangeHandler} rating={reviewFormData.rating} isDisabled={isFormDisabled}/>
+          <RatingStars handleFieldChange={handleFieldChange} rating={reviewFormData.rating} isDisabled={isFormDisabled}/>
 
-          <div className="add-review__text" style={{backgroundColor: lightenDarkenColor(film?.backgroundColor, LIGHTEN_COEFFICIENT)}}>
-            <textarea className="add-review__textarea" name="review-text" id="review-text" placeholder="Review text" value={reviewFormData.reviewText} onChange={fieldChangeHandler} disabled={isFormDisabled}></textarea>
+          <div className="add-review__text" style={{backgroundColor: lightenDarkenColor(film?.backgroundColor, ColorCoefficient.LightenCoefficient)}}>
+            <textarea className="add-review__textarea" name="review-text" id="review-text" placeholder="Review text" value={reviewFormData.reviewText} onChange={handleFieldChange} disabled={isFormDisabled}></textarea>
             <div className="add-review__submit">
-              <button className="add-review__btn" type="submit" style={{color: lightenDarkenColor(film?.backgroundColor, DARKEN_COEFFICIENT)}} disabled={isPostButtonDisabled || isFormDisabled}>Post</button>
+              <button className="add-review__btn" type="submit" style={{color: lightenDarkenColor(film?.backgroundColor, ColorCoefficient.DarkenCoefficient)}} disabled={isPostButtonDisabled || isFormDisabled}>Post</button>
             </div>
           </div>
         </form>

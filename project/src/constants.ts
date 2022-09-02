@@ -29,16 +29,22 @@ export enum FilmTabs {
   Reviews = 'reviews',
 }
 
-export const DARKEN_COEFFICIENT = -80;
-export const LIGHTEN_COEFFICIENT = 10;
+export enum ColorCoefficient{
+  DarkenCoefficient = -80,
+  LightenCoefficient = 10,
+}
 
-export const DEFAULT_FILM_RATING = 0;
-export const MAX_FILM_RATING = 10;
+export enum FilmRatingSettings{
+  DefaultFilmRating = 0,
+  MaxFilmRating = 10,
+}
 
 export const PLAYBACK_DELAY_MS = 1000;
 
-export const MAX_DISPLAED_SIMILAR_FILM_QUANTITY = 4;
-export const FILM_TO_SHOW_QUANTITY_BY_DEFAULT = 8;
+export enum ComponentsDisplaySettings{
+  MaxDisplayedSimilarFilmQuantity = 4,
+  FilmToShowQuantityByDefault = 8,
+}
 
 export const MONTHS_NAMES = ['January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December'
@@ -68,9 +74,10 @@ export enum AddToFavoriteStatus {
   REMOVE = 0,
 }
 
-export const MIN_REVIEW_TEXT_LENGTH = 50;
-export const MAX_REVIEW_TEXT_LENGTH = 400;
-
+export enum ReviewTextLength {
+  MinReviewTextLength = 50,
+  MaxReviewTextLength = 400,
+}
 
 export enum NameSpace {
   AppData = 'APP_DATA',
@@ -78,3 +85,6 @@ export enum NameSpace {
   UserProcess = 'USER_PROCESS',
 }
 
+export const PLAYER_UPDATE_INTERVAL_MS = 250;
+
+export const MAX_SCALING_VALUE = 100;

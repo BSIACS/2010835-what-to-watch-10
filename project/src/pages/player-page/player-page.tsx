@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, Navigate, useParams } from 'react-router-dom';
-import { AppLink, AppRoute } from '../../constants';
+import { AppLink, AppRoute, MAX_SCALING_VALUE, PLAYER_UPDATE_INTERVAL_MS } from '../../constants';
 import { useAppSelector } from '../../hooks';
 import { store } from '../../store';
 import { fetchFilmAction } from '../../store/api-actions';
@@ -10,7 +10,7 @@ import { tarsformTimeFormat } from '../../utils';
 
 let intervalId : (NodeJS.Timeout | null) = null;
 
-function Player() : JSX.Element{
+function PlayerPage() : JSX.Element{
   const params = useParams();
   const id = Number(params.id);
 
@@ -31,11 +31,11 @@ function Player() : JSX.Element{
     videoElement.current?.play();
     intervalId = setInterval(() => {
       if(videoElement.current?.currentTime){
-        setTimeProgress(Math.round((videoElement.current?.currentTime / duration * 100)));
+        setTimeProgress(Math.round((videoElement.current?.currentTime / duration * MAX_SCALING_VALUE)));
 
         setTimesLeft(tarsformTimeFormat(duration - Math.round(videoElement.current?.currentTime)));
       }
-    }, 250);
+    }, PLAYER_UPDATE_INTERVAL_MS);
   }, [duration]);
 
   const pause = useCallback(() => {
@@ -73,31 +73,31 @@ function Player() : JSX.Element{
     return <Navigate to={AppRoute.NotFound} />;
   }
 
-  const progressBarClickHandler = (evt : React.MouseEvent<HTMLProgressElement>) => {
+  const handleProgressBarClick = (evt : React.MouseEvent<HTMLProgressElement>) => {
     const targetValueInPercent = evt.nativeEvent.offsetX * (evt.target as HTMLProgressElement).max / (evt.target as HTMLProgressElement).offsetWidth;
 
     setTargetTimeValue(duration / 100 * targetValueInPercent);
     setTimeProgress(targetValueInPercent);
   };
 
-  const playClickHandler = (evt : React.MouseEvent<HTMLButtonElement>) => {
+  const handlePlayClick = (evt : React.MouseEvent<HTMLButtonElement>) => {
     setIsPlayed(!isPlayed);
   };
 
-  const fullScreenButtonClickHandler = (evt : React.MouseEvent<HTMLButtonElement>) => {
+  const handleFullScreenButtonClick = (evt : React.MouseEvent<HTMLButtonElement>) => {
     if(videoElement.current){
       videoElement.current.requestFullscreen();
     }
   };
 
-  const loadDataHandler = (evt : React.SyntheticEvent<HTMLVideoElement, Event>) => {
+  const handleLoadData = () => {
     setIsLoaded(true);
     if(videoElement.current?.duration !== undefined){
       setDuration(Math.round(videoElement.current?.duration));
     }
   };
 
-  const endedHandler = () => {
+  const handleEnded = () => {
     setIsPlayed(false);
     if(film && videoElement.current){
       videoElement.current.setAttribute('src', film?.videoLink);
@@ -142,7 +142,6 @@ function Player() : JSX.Element{
         }
       `}
       </style>
-      <div className='mytestblock'>{isPlayed ? 'true' : 'false'}</div>
       <div className="visually-hidden">
         <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
           <symbol id="add" viewBox="0 0 19 20">
@@ -178,21 +177,21 @@ function Player() : JSX.Element{
 
       <div className="player">
 
-        <video src={film?.videoLink} ref={videoElement} className="player__video" poster={film?.previewImage} onLoadedData={loadDataHandler} onEnded={endedHandler}></video>
+        <video src={film?.videoLink} ref={videoElement} className="player__video" poster={film?.previewImage} onLoadedData={handleLoadData} onEnded={handleEnded}></video>
 
         <Link className="player__exit" to={`/${AppLink.Films}/${film?.id}`}>Exit</Link>
 
         <div className="player__controls">
           <div className="player__controls-row">
             <div className="player__time">
-              <progress className="player__progress" value={timeProgress} max="100" onClick={progressBarClickHandler}></progress>
+              <progress className="player__progress" value={timeProgress} max="100" onClick={handleProgressBarClick}></progress>
               <div className="player__toggler" style={{left: `${timeProgress}%`}}>Toggler</div>
             </div>
             <div className="player__time-value">{timesLeft}</div>
           </div>
 
           <div className="player__controls-row">
-            <button type="button" className="player__play" onClick={playClickHandler}>
+            <button type="button" className="player__play" onClick={handlePlayClick}>
               <svg viewBox="0 0 19 19" width="19" height="19">
                 <use xlinkHref={isPlayed ? '#pause' : '#play-s'}></use>
               </svg>
@@ -200,7 +199,7 @@ function Player() : JSX.Element{
             </button>
             <div className="player__name">{film?.name}</div>
 
-            <button type="button" className="player__full-screen" onClick={fullScreenButtonClickHandler}>
+            <button type="button" className="player__full-screen" onClick={handleFullScreenButtonClick}>
               <svg viewBox="0 0 27 27" width="27" height="27">
                 <use xlinkHref="#full-screen"></use>
               </svg>
@@ -213,4 +212,4 @@ function Player() : JSX.Element{
   );
 }
 
-export default Player;
+export default PlayerPage;

@@ -1,5 +1,5 @@
 type RatingStarProps = {
-  fieldChangeHandler : (evt : React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void,
+  handleFieldChange : (evt : React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void,
   elementNumber : number,
   rating : number,
   isDisabled : boolean,

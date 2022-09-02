@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { MAX_DISPLAED_SIMILAR_FILM_QUANTITY } from '../../constants';
+import { ComponentsDisplaySettings } from '../../constants';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchSimilarFilmsAction } from '../../store/api-actions';
 import { clearSimilarFilms } from '../../store/app-data/app-data';
@@ -12,7 +12,7 @@ import FilmCard from '../film-card/film-card';
 function MoreLikeThisFilmList({filmId} : MoreLikeThisFilmListProps) : JSX.Element{
   const dispatch = useAppDispatch();
   let similarFilms = useAppSelector(getSimilarFilms);
-  similarFilms = similarFilms.slice(0, MAX_DISPLAED_SIMILAR_FILM_QUANTITY);
+  similarFilms = similarFilms.slice(0, ComponentsDisplaySettings.MaxDisplayedSimilarFilmQuantity);
 
 
   useEffect(() => {

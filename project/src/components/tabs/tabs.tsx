@@ -17,7 +17,7 @@ function Tabs({film, comments} : TabsProps) : JSX.Element{
   const detailsSpanElement = useRef<HTMLSpanElement | null>(null);
   const reviewSpanElement = useRef<HTMLSpanElement | null>(null);
 
-  const tabLinkClickHandler = (evt : React.MouseEvent<HTMLSpanElement>) => {
+  const handleTabLinkClick = (evt : React.MouseEvent<HTMLSpanElement>) => {
     switch((evt.target as HTMLSpanElement).dataset['value']){
       case FilmTabs.Overview: setActiveTabsComponent(overviewTab);
         break;
@@ -43,13 +43,13 @@ function Tabs({film, comments} : TabsProps) : JSX.Element{
         <nav className="film-nav film-card__nav">
           <ul className="film-nav__list">
             <li className={`film-nav__item ${FilmTabs.Overview === activeTabsComponent.key ? 'film-nav__item--active' : ''}`} >
-              <span ref={overviewSpanElement} className="film-nav__link" data-value={FilmTabs.Overview} onClick={tabLinkClickHandler}>Overview</span>
+              <span ref={overviewSpanElement} className="film-nav__link" data-value={FilmTabs.Overview} onClick={handleTabLinkClick}>Overview</span>
             </li>
             <li className={`film-nav__item ${FilmTabs.Details === activeTabsComponent.key ? 'film-nav__item--active' : ''}`}>
-              <span ref={detailsSpanElement} className="film-nav__link" data-value={FilmTabs.Details} onClick={tabLinkClickHandler}>Details</span>
+              <span ref={detailsSpanElement} className="film-nav__link" data-value={FilmTabs.Details} onClick={handleTabLinkClick}>Details</span>
             </li>
             <li className={`film-nav__item ${FilmTabs.Reviews === activeTabsComponent.key ? 'film-nav__item--active' : ''}`}>
-              <span ref={reviewSpanElement} className="film-nav__link" data-value={FilmTabs.Reviews} onClick={tabLinkClickHandler}>Reviews</span>
+              <span ref={reviewSpanElement} className="film-nav__link" data-value={FilmTabs.Reviews} onClick={handleTabLinkClick}>Reviews</span>
             </li>
           </ul>
         </nav>

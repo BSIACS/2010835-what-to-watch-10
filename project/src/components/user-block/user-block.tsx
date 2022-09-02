@@ -20,7 +20,7 @@ function UserBlock() : JSX.Element{
     );
   }
 
-  const logoutClickHandler = () => {
+  const handleLogoutClick = () => {
     dispatch(logoutAction());
   };
 
@@ -34,7 +34,7 @@ function UserBlock() : JSX.Element{
         </Link>
       </li>
       <li className="user-block__item">
-        <span className="user-block__link" onClick={logoutClickHandler}>Sign out</span>
+        <span className="user-block__link" onClick={handleLogoutClick}>Sign out</span>
       </li>
     </ul>
   );

@@ -22,13 +22,13 @@ function Videoplayer({film, isPlaying, isMuted} : VideoplayerProps) : JSX.Elemen
 
   }, [isPlaying, isLoading]);
 
-  const loadHandler = () => setIsLoading(false);
+  const handleLoad = () => setIsLoading(false);
 
 
   return (
     <div className="small-film-card__image" >
       { isPlaying ?
-        <video ref={videoElement} muted={isMuted} loop src={film.previewVideoLink } poster={film.previewImage} height="100%" onLoadedData={loadHandler}></video> :
+        <video ref={videoElement} muted={isMuted} loop src={film.previewVideoLink } poster={film.previewImage} height="100%" onLoadedData={handleLoad}></video> :
         <img src={film.previewImage} alt={film.name} /> }
     </div>
   );
