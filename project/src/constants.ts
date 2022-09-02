@@ -11,6 +11,7 @@ export enum AppRoute {
   AddReview = '/films/:id/review',
   Player = '/player/:id',
   Mylist = '/mylist',
+  NotFound = '/404',
 }
 
 export enum AppLink {

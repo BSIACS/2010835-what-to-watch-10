@@ -1,27 +1,31 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
-import { AppLink } from '../../constants';
-import { getFilms } from '../../store/app-data/selectors';
-import PlayerProps from '../../types/props/player-props';
+import { Link, Navigate, useParams } from 'react-router-dom';
+import { AppLink, AppRoute } from '../../constants';
+import { useAppSelector } from '../../hooks';
+import { store } from '../../store';
+import { fetchFilmAction } from '../../store/api-actions';
+import { resetFilm, setIsDataNotFound } from '../../store/app-data/app-data';
+import { getFilm, getIsDataNotFound } from '../../store/app-data/selectors';
 import { tarsformTimeFormat } from '../../utils';
 
 let intervalId : (NodeJS.Timeout | null) = null;
 
-function Player({isAutoplay} : PlayerProps) : JSX.Element{
+function Player() : JSX.Element{
+  const params = useParams();
+  const id = Number(params.id);
+
   const videoElement = useRef<HTMLVideoElement>(null);
 
-  const [isPlayed, setIsPlayed] = useState(isAutoplay);
+  const [isPlayed, setIsPlayed] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [duration, setDuration] = useState<number>(0);
+  const film = useAppSelector(getFilm);
+  const isDataNotFound = useAppSelector(getIsDataNotFound);
 
   const [targetTimeValue, setTargetTimeValue] = useState<number>(0);
   const [timesLeft, setTimesLeft] = useState<string>('');
-
   const [timeProgress, setTimeProgress] = useState<number>(0);
 
-  const params = useParams();
-  const filmToPlay = useSelector(getFilms).find((film) => film.id === Number(params.id));
 
   const play = useCallback(() => {
     videoElement.current?.play();
@@ -42,16 +46,12 @@ function Player({isAutoplay} : PlayerProps) : JSX.Element{
   }, []);
 
   useEffect(() => {
-    if(isAutoplay){
-      loadVideo();
-    }
-
+    store.dispatch(fetchFilmAction({id: id}));
     return () => {
-      if(intervalId){
-        clearInterval(intervalId);
-      }
+      store.dispatch(resetFilm());
+      store.dispatch(setIsDataNotFound(false));
     };
-  }, [isAutoplay]);
+  }, [id]);
 
   useEffect(() => {
     if(isPlayed && isLoaded){
@@ -69,9 +69,9 @@ function Player({isAutoplay} : PlayerProps) : JSX.Element{
 
   }, [targetTimeValue]);
 
-  const loadVideo = () => {
-    videoElement.current?.load();
-  };
+  if(isDataNotFound){
+    return <Navigate to={AppRoute.NotFound} />;
+  }
 
   const progressBarClickHandler = (evt : React.MouseEvent<HTMLProgressElement>) => {
     const targetValueInPercent = evt.nativeEvent.offsetX * (evt.target as HTMLProgressElement).max / (evt.target as HTMLProgressElement).offsetWidth;
@@ -99,8 +99,8 @@ function Player({isAutoplay} : PlayerProps) : JSX.Element{
 
   const endedHandler = () => {
     setIsPlayed(false);
-    if(filmToPlay && videoElement.current){
-      videoElement.current.setAttribute('src', filmToPlay?.videoLink);
+    if(film && videoElement.current){
+      videoElement.current.setAttribute('src', film?.videoLink);
     }
     setTimeProgress(100);
   };
@@ -136,9 +136,13 @@ function Player({isAutoplay} : PlayerProps) : JSX.Element{
         .hidden{
           display: none;
         }
+
+        .mytestblock{
+          height: 40px,
+        }
       `}
       </style>
-
+      <div className='mytestblock'>{isPlayed ? 'true' : 'false'}</div>
       <div className="visually-hidden">
         <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
           <symbol id="add" viewBox="0 0 19 20">
@@ -174,9 +178,9 @@ function Player({isAutoplay} : PlayerProps) : JSX.Element{
 
       <div className="player">
 
-        <video src={filmToPlay?.videoLink} ref={videoElement} className="player__video" poster={filmToPlay?.previewImage} onLoadedData={loadDataHandler} onEnded={endedHandler}></video>
+        <video src={film?.videoLink} ref={videoElement} className="player__video" poster={film?.previewImage} onLoadedData={loadDataHandler} onEnded={endedHandler}></video>
 
-        <Link className="player__exit" to={`/${AppLink.Films}/${filmToPlay?.id}`}>Exit</Link>
+        <Link className="player__exit" to={`/${AppLink.Films}/${film?.id}`}>Exit</Link>
 
         <div className="player__controls">
           <div className="player__controls-row">
@@ -194,7 +198,7 @@ function Player({isAutoplay} : PlayerProps) : JSX.Element{
               </svg>
               <span>Play</span>
             </button>
-            <div className="player__name">{filmToPlay?.name}</div>
+            <div className="player__name">{film?.name}</div>
 
             <button type="button" className="player__full-screen" onClick={fullScreenButtonClickHandler}>
               <svg viewBox="0 0 27 27" width="27" height="27">

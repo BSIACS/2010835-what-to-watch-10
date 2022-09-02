@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, Navigate, useParams } from 'react-router-dom';
 import AddToMyListButton from '../../components/add-to-my-list-button.tsx/add-to-my-list-button';
 import Footer from '../../components/footer/footer';
 import LoadingScreen from '../../components/loading-screen/loading-screen';
@@ -8,14 +8,13 @@ import MoreLikeThisFilmList from '../../components/more-like-this-film-list/more
 import PlayButton from '../../components/play-button/play-button';
 import Tabs from '../../components/tabs/tabs';
 import UserBlock from '../../components/user-block/user-block';
-import { AppLink, AuthorizationStatus } from '../../constants';
+import { AppLink, AppRoute, AuthorizationStatus } from '../../constants';
 import { useAppSelector } from '../../hooks';
 import { store } from '../../store';
 import { fetchCommentsAction, fetchFilmAction } from '../../store/api-actions';
 import { resetFilm, setIsDataNotFound } from '../../store/app-data/app-data';
 import { getComments, getFilm, getIsDataNotFound } from '../../store/app-data/selectors';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
-import NotFoundPage from '../not-found-page/not-found-page';
 
 function FilmPage() : JSX.Element{
   const params = useParams();
@@ -38,9 +37,7 @@ function FilmPage() : JSX.Element{
 
 
   if(isDataNotFound){
-    return (
-      <NotFoundPage/>
-    );
+    return <Navigate to={AppRoute.NotFound} />;
   }
 
   if(film && filmComments){
